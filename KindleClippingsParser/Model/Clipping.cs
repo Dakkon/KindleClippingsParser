@@ -2,7 +2,7 @@
 
 namespace KindleClippingsParser.Model
 {
-    class Clipping
+    public class Clipping
     {
         #region Private fields
 
@@ -132,8 +132,8 @@ namespace KindleClippingsParser.Model
         /// </summary>
         /// <param name="timeStamp">Time, when the clipping was taken</param>
         public void SetTimeStamp(string ts)
-        {            
-            throw (new NotImplementedException());            
+        {
+            this.m_Timestamp = DateTime.Parse(ts);
         }
 
         /// <summary>

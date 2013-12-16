@@ -12,17 +12,29 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using KindleClippingsParser.Controller;
 
-namespace KindleClippingsParser
+namespace KindleClippingsParser.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    /// </summary>   
+
     public partial class MainWindow : Window
     {
+        #region Private fields
+
+        KindleClippingsParserController m_Controller;
+
+        #endregion Private fields
+        #region Ctors
+
         public MainWindow()
         {
             InitializeComponent();
+            this.m_Controller = new KindleClippingsParserController();
         }
-    }
+
+        #endregion Ctors
+    }   
 }
