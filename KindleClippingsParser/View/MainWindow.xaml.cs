@@ -33,8 +33,19 @@ namespace KindleClippingsParser.View
         {
             InitializeComponent();
             this.m_Controller = new KindleClippingsParserController();
+            this.test_DisplayClippings();
         }
 
         #endregion Ctors
+
+
+        #region FOR TESTING PURPOSES
+
+        private void test_DisplayClippings()
+        {
+            this.m_Controller.DisplayClippings(this.textBoxClippingText);
+        }
+
+        #endregion FOR TESTING PURPOSES
     }   
 }
