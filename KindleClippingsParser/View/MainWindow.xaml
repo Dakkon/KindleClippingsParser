@@ -1,30 +1,41 @@
 ﻿<Window x:Class="KindleClippingsParser.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Kindle Clippings Parser" Height="457" Width="554">
-    <Grid HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch">
+        Title="Kindle Clippings Parser" Height ="620" MinHeight="620" MinWidth="750" Width="750">
+    <Grid HorizontalAlignment="Stretch" Margin="0,0,0,10" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="85*"/>
-            <ColumnDefinition Width="188*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="listBoxAuthors" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,0,0,5" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" >
-            <ListBoxItem Content="Authors" HorizontalAlignment="Center"/>
-            <Button x:Name="buttonMarkAuthors" Height="20" Content="Mark/Unmark all" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch"/>
-            <CheckBox/>
-        </ListBox>
-        <ListBox x:Name="listBoxTitles" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" Margin="5,0,0,5" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-            <ListBoxItem Content="Titles" HorizontalAlignment="Center"/>
-            <Button x:Name="buttonMarkTitles" Height="20" Content="Mark/Unmark all" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch"/>
-            <CheckBox/>
-        </ListBox>
-        <TextBox x:Name="textBoxClippingText" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                 TextWrapping="Wrap" Margin="5,0,5,5" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-        <Menu IsMainMenu="True" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Height="20" VerticalAlignment="Top" >
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <GroupBox Header="Search">
+                <TextBox/>
+            </GroupBox>
+            <GroupBox Header="Filter">
+                <StackPanel>
+                    <Expander Header="Authors">
+                        <StackPanel VerticalAlignment="Stretch">
+                            <Button x:Name="buttonMarkAuthors" Height="20" Content="Mark/Unmark all" HorizontalContentAlignment="Center" Click="buttonMarkAuthors_Click" HorizontalAlignment="Center"/>
+                            <ListBox x:Name="listBoxAuthors" HorizontalAlignment="Stretch" Margin="5,0,0,5" MaxHeight="190"></ListBox>
+                        </StackPanel>
+                    </Expander>
+                    <Expander Header="Titles">
+                        <StackPanel>
+                            <Button x:Name="buttonMarkTitles" Height="20" Content="Mark/Unmark all" HorizontalContentAlignment="Center" Click="buttonMarkTitles_Click" HorizontalAlignment="Center"/>
+                            <ListBox x:Name="listBoxTitles" HorizontalAlignment="Stretch" Margin="5,0,0,5" MaxHeight="190"></ListBox>
+                        </StackPanel>
+                    </Expander>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" Grid.Column="1">
+            <StackPanel x:Name="stackPanelClippings"/>
+        </ScrollViewer>
+        <Menu IsMainMenu="True" HorizontalAlignment="Stretch" Height="20" VerticalAlignment="Top" Grid.ColumnSpan="2">
             <MenuItem Header="_File">
                 <MenuItem Header="_Open"/>
                 <Separator />
