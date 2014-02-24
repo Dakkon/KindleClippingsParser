@@ -33,7 +33,7 @@ namespace KindleClippingsParser.View
         {
             get
             {
-                foreach(object item in listBoxAuthors.Items)
+                foreach (object item in listBoxAuthors.Items)
                 {
                     if (item.GetType() == typeof(CheckBox) && !(bool)(((CheckBox)item).IsChecked))
                     {
@@ -66,7 +66,6 @@ namespace KindleClippingsParser.View
         {
             InitializeComponent();
             m_Controller = new KindleClippingsParserController(this);
-            test_DisplayClippings();
         }
 
         #endregion Ctors
@@ -82,32 +81,30 @@ namespace KindleClippingsParser.View
             m_Controller.ButtonMarkTitlesClick(listBoxTitles);
         }
 
+        private void menuItemOpen_Click(object sender, RoutedEventArgs e)
+        {
+            m_Controller.menuItemOpenClick(this);
+        }
+
+        private void menuItemExit_Click(object sender, RoutedEventArgs e)
+        {
+            m_Controller.menuItemExitClick();
+        }
+
         #endregion Event handlers
         #region Public methods
 
         public void SetCheckBoxesSelection(ListBox listBox, bool state)
         {
-            foreach(object item in listBox.Items)
+            foreach (object item in listBox.Items)
             {
                 if (item.GetType() == typeof(CheckBox))
                 {
                     ((CheckBox)item).IsChecked = state;
-                }                
+                }
             }
         }
 
         #endregion Public methods
-
-
-        #region FOR TESTING PURPOSES
-
-        private void test_DisplayClippings()
-        {
-            m_Controller.DisplayClippings(stackPanelClippings);
-            m_Controller.PopulateAuthorsList(listBoxAuthors);
-            m_Controller.PopulateTitlesList(listBoxTitles);
-        }
-
-        #endregion FOR TESTING PURPOSES
-    }   
+    }
 }

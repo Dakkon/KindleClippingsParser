@@ -37,9 +37,9 @@
         </ScrollViewer>
         <Menu IsMainMenu="True" HorizontalAlignment="Stretch" Height="20" VerticalAlignment="Top" Grid.ColumnSpan="2">
             <MenuItem Header="_File">
-                <MenuItem Header="_Open"/>
+                <MenuItem x:Name="menuItemOpen" Header="_Open" Click="menuItemOpen_Click"/>
                 <Separator />
-                <MenuItem Header="E_xit" />
+                <MenuItem x:Name="menuItemExit" Header="E_xit" Click="menuItemExit_Click" />
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="About"/>

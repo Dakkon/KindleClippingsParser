@@ -1,5 +1,6 @@
 ﻿using KindleClippingsParser.Model;
 using KindleClippingsParser.View;
+using Microsoft.Win32;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,8 +19,7 @@ namespace KindleClippingsParser.Controller
 
         public KindleClippingsParserController(MainWindow mainWindow)
         {
-            m_MainWindow = mainWindow;
-            test_CreateClippingsFileParserInstance();
+            m_MainWindow = mainWindow;            
         }
 
         #endregion Ctors
@@ -149,20 +149,28 @@ namespace KindleClippingsParser.Controller
             }
         }
 
-        #endregion Public methods
-
-
-        #region FOR TESTING PURPOSES
-
-        private void test_CreateClippingsFileParserInstance()
+        public void menuItemOpenClick(MainWindow mainWindow)
         {
-            m_ClippingsFileParserInstance = new ClippingsFileParser("C:\\My Clippings.txt");
-        }       
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.DefaultExt = ".txt";
+            dlg.Filter =  "Text documents (.txt)|*.txt"; 
+            
+            bool? isFileSelected = dlg.ShowDialog();
 
-        #endregion FOR TESTING PURPOSES               
-    
-        
-    
-       
+            if(isFileSelected == true)
+            {
+                m_ClippingsFileParserInstance = new ClippingsFileParser(dlg.FileName);
+                DisplayClippings(mainWindow.stackPanelClippings);
+                PopulateAuthorsList(mainWindow.listBoxAuthors);
+                PopulateTitlesList(mainWindow.listBoxTitles);
+            }
+        }
+
+        public void menuItemExitClick()
+        {
+            Application.Current.Shutdown();
+        }
+
+        #endregion Public methods        
     }
 }
