@@ -17,13 +17,13 @@
             </GroupBox>
             <GroupBox Header="Filter">
                 <StackPanel>
-                    <Expander Header="Authors">
+                    <Expander x:Name="expanderAuthors" Header="Authors">
                         <StackPanel VerticalAlignment="Stretch">
                             <Button x:Name="buttonMarkAuthors" Height="20" Content="Mark/Unmark all" HorizontalContentAlignment="Center" Click="buttonMarkAuthors_Click" HorizontalAlignment="Center"/>
                             <ListBox x:Name="listBoxAuthors" HorizontalAlignment="Stretch" Margin="5,0,0,5" MaxHeight="190"></ListBox>
                         </StackPanel>
                     </Expander>
-                    <Expander Header="Titles">
+                    <Expander x:Name="expanderTitles" Header="Titles">
                         <StackPanel>
                             <Button x:Name="buttonMarkTitles" Height="20" Content="Mark/Unmark all" HorizontalContentAlignment="Center" Click="buttonMarkTitles_Click" HorizontalAlignment="Center"/>
                             <ListBox x:Name="listBoxTitles" HorizontalAlignment="Stretch" Margin="5,0,0,5" MaxHeight="190"></ListBox>

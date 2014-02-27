@@ -83,7 +83,7 @@ namespace KindleClippingsParser.View
 
         private void menuItemOpen_Click(object sender, RoutedEventArgs e)
         {
-            m_Controller.menuItemOpenClick(this);
+            m_Controller.menuItemOpenClick();
         }
 
         private void menuItemExit_Click(object sender, RoutedEventArgs e)
@@ -94,7 +94,7 @@ namespace KindleClippingsParser.View
         #endregion Event handlers
         #region Public methods
 
-        public void SetCheckBoxesSelection(ListBox listBox, bool state)
+        public void ToggleSelectionForAllCheckBoxesInListBox(ListBox listBox, bool state)
         {
             foreach (object item in listBox.Items)
             {
@@ -105,6 +105,25 @@ namespace KindleClippingsParser.View
             }
         }
 
+        public void OpenBothExpanders()
+        {
+            expanderAuthors.IsExpanded = true;
+            expanderTitles.IsExpanded = true;
+        }
+
+        public CheckBox FindCheckBoxOnTitleListBoxForTitle(string title)
+        {
+            foreach (CheckBox checkBox in listBoxTitles.Items)
+            {
+                if (string.Equals(checkBox.Content.ToString(), title))
+                {
+                    return checkBox;
+                }
+            }
+
+            return null;
+        }
+               
         #endregion Public methods
     }
 }

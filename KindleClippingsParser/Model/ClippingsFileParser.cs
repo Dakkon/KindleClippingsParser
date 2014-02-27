@@ -25,9 +25,6 @@ namespace KindleClippingsParser.Model
         #endregion Private fields
         #region Properties
 
-        /// <summary>
-        /// List of clipping objects generated from My Clippings.txt file
-        /// </summary>
         public List<Clipping> ListOfMyClippings
         {
             get
@@ -36,9 +33,6 @@ namespace KindleClippingsParser.Model
             }
         }
 
-        /// <summary>
-        /// List of all authors (without duplicates)
-        /// </summary>
         public List<string> ListOfAllAuthors
         {
             get
@@ -47,9 +41,6 @@ namespace KindleClippingsParser.Model
             }
         }
 
-        /// <summary>
-        /// List of all titles (without duplicates)
-        /// </summary>
         public List<string> ListOfAllTitles
         {
             get
@@ -61,10 +52,6 @@ namespace KindleClippingsParser.Model
         #endregion Properties
         #region Ctors
 
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="pathToClippingsFile">Full path to My Clippings.txt file (folders + file name)</param>
         public ClippingsFileParser(string pathToClippingsFile)
         {
             m_PathToClippingsFile = pathToClippingsFile;
@@ -73,16 +60,13 @@ namespace KindleClippingsParser.Model
             m_ListOfAllAuthors = new List<string>();
             m_ListOfAllTitles = new List<string>();
 
-            ParseMyClippingsFileToListOfClippingObject();
+            ParseMyClippingsFileToListOfClippingObjects();
         }
 
         #endregion Ctors
         #region Private methods
 
-        /// <summary>
-        /// Opens, reads and converts My Clipping.txt file into the list of Clipping objects
-        /// </summary>
-        private void ParseMyClippingsFileToListOfClippingObject()
+        private void ParseMyClippingsFileToListOfClippingObjects()
         {
             using (StreamReader sr = new StreamReader(m_PathToClippingsFile))
             {
@@ -119,15 +103,9 @@ namespace KindleClippingsParser.Model
                 }
             }
 
-            UpdateListsOfAllAuthorsAndTitles();
+            PopulateListsOfAllAuthorsAndTitles();
         }
 
-        /// <summary>
-        /// Attempts to extract clipping title (book title, article title etc.) and author from line of text
-        /// </summary>
-        /// <param name="lineOfText">First line of text from single clipping block in My Clippings.txt</param>
-        /// <param name="title">Clipping source title (book title, article title etc.</param>
-        /// <param name="author">Clipping author</param>
         private void SeparateTitleFromAuthor(string lineOfText, out string title, out string author)
         {
             string[] splittedLine = lineOfText.Split(' ');
@@ -167,16 +145,11 @@ namespace KindleClippingsParser.Model
             }
             else //when there's no author in parenthesis
             {
-                author = string.Empty;
+                author = "<unknown>";
                 title = lineOfText;
             }
         }
 
-        /// <summary>
-        /// Attempts to extract clipping timestamp from line of text
-        /// </summary>
-        /// <param name="lineOfText">Second line of text from single clipping block in My Clippings.txt</param>
-        /// <returns>Clipping timestamp</returns>
         private string TryExtractTimeStampFromLineOfText(string lineOfText)
         {
             string[] splittedLineOfText = (lineOfText.Split(','));
@@ -191,11 +164,6 @@ namespace KindleClippingsParser.Model
                 splittedLineOfText[3].TrimStart());
         }
 
-        /// <summary>
-        /// Removes parenthesis from text
-        /// </summary>
-        /// <param name="text">Text with parenthesis</param>
-        /// <returns>Text without parenthesis</returns>
         private string RemoveParenthesisFromText(string text)
         {
             text = text.Replace("(", "");
@@ -204,26 +172,17 @@ namespace KindleClippingsParser.Model
             return text;
         }
 
-        /// <summary>
-        /// Updates private property ListOfAllAuthors
-        /// </summary>
         private void UpdateListOfAllAuthors()
         {
             foreach (Clipping currentClipping in m_ListOfMyClippings)
-            {
-                if (!string.IsNullOrEmpty(currentClipping.Author))
-                {
-                    m_ListOfAllAuthors.Add(currentClipping.Author);
-                }
+            {                
+                m_ListOfAllAuthors.Add(currentClipping.Author);                
             }
 
             m_ListOfAllAuthors = m_ListOfAllAuthors.Distinct().ToList();
             m_ListOfAllAuthors.Sort();
         }
 
-        /// <summary>
-        /// Updates private property ListOfAllTitles
-        /// </summary>
         private void UpdateListOfAllTitles()
         {
             foreach (Clipping currentClipping in m_ListOfMyClippings)
@@ -238,10 +197,7 @@ namespace KindleClippingsParser.Model
             m_ListOfAllTitles.Sort();
         }
 
-        /// <summary>
-        /// Updates private properties ListOfAllTitles and ListOfAllAuthors
-        /// </summary>
-        private void UpdateListsOfAllAuthorsAndTitles()
+        private void PopulateListsOfAllAuthorsAndTitles()
         {
             foreach (Clipping currentClipping in m_ListOfMyClippings)
             {
@@ -249,11 +205,8 @@ namespace KindleClippingsParser.Model
                 {
                     m_ListOfAllTitles.Add(currentClipping.Title);
                 }
-
-                if (!string.IsNullOrEmpty(currentClipping.Author))
-                {
-                    m_ListOfAllAuthors.Add(currentClipping.Author);
-                }
+                                
+                m_ListOfAllAuthors.Add(currentClipping.Author);                
             }
 
             m_ListOfAllAuthors = m_ListOfAllAuthors.Distinct().ToList();
@@ -265,76 +218,34 @@ namespace KindleClippingsParser.Model
         #endregion Private methods
         #region Public methods
 
-        /// <summary>
-        /// Enables/disables clippings with a given title (used for filtering)
-        /// </summary>
-        /// <param name="title">Title to be found</param>
-        public void ToggleClippingsVisibilityByTitle(string title)
+        public bool IsThereAtLeastOneClippingForAuthorEnabled(string author)
         {
-            throw (new NotImplementedException());
+            return m_ListOfMyClippings.Exists(clipping =>
+                {
+                    return (string.Equals(clipping.Author, author) && clipping.IsEnabled);
+                });
         }
 
-        /// <summary>
-        /// Enables/disables clippings with a given author (used for filtering)
-        /// </summary>
-        /// <param name="author">Author to be found</param>
-        public void ToggleClippingsVisiblityByAuthor(string author)
-        {
-            throw (new NotImplementedException());
-        }
-
-        /// <summary>
-        /// Filters list of clippings by timestamp (only clippings with given timestamp will be shown)
-        /// </summary>
-        /// <param name="ts">Timestamp to be found</param>
-        public void FilterListByTimestamp(DateTime ts)
-        {
-            throw (new NotImplementedException());
-        }
-
-        /// <summary>
-        /// Filters list of clippings by timestamp
-        /// </summary>
-        /// <param name="ts">Only older clippings will be shown</param>
-        /// <param name="showEqual">Show also clippings with timestamp equal to ts</param>
-        public void FilterOlderThan(DateTime ts, bool showEqual)
-        {
-            throw (new NotImplementedException());
-        }
-
-        /// <summary>
-        /// Filters list of clippings by timestamp
-        /// </summary>
-        /// <param name="ts">Only newer clippings will be shown</param>
-        /// <param name = "showEqual">Show also clippings with timestamp equal to ts</param>
-        public void FilterNewerThan(DateTime ts, bool showEqual)
-        {
-            throw (new NotImplementedException());
-        }
-
-        /// <summary>
-        /// Returns list of titles for author
-        /// </summary>
-        /// <param name="author">Author name or empty string</param>
-        /// <returns></returns>
         public List<string> GetListOfAllTitlesForAuthor(string author)
         {
             List<string> listOfAllTitlesForAuthor = new List<string>();
-
-            if (!string.IsNullOrEmpty(author))
-            {
-                listOfAllTitlesForAuthor.AddRange(from clipping in m_ListOfMyClippings
-                                                  where string.Equals(clipping.Author, author)
-                                                  select clipping.Title);
-            }
-            else
-            {
-                listOfAllTitlesForAuthor.AddRange(from clipping in m_ListOfMyClippings
-                                                  where string.IsNullOrEmpty(clipping.Author)
-                                                  select clipping.Title);
-            }
+                        
+            listOfAllTitlesForAuthor.AddRange(from clipping in m_ListOfMyClippings
+                                                where string.Equals(clipping.Author, author)
+                                                select clipping.Title);            
 
             return listOfAllTitlesForAuthor.Distinct().ToList();
+        }
+
+        public List<string> GetListOfAllAuthorsForTitle(string title)
+        {
+            List<string> listOfAllAuthorsForTitle = new List<string>();
+
+            listOfAllAuthorsForTitle.AddRange(from clipping in m_ListOfMyClippings
+                                              where string.Equals(clipping.Title, title)
+                                              select clipping.Author);
+
+            return listOfAllAuthorsForTitle;
         }
 
         public List<Clipping> GetSublistOfClippingsForAuthorAndTitle(string author, string title)
@@ -348,6 +259,46 @@ namespace KindleClippingsParser.Model
             SublistOfClippingsForAuthorAndTitle.AddRange(ClippingsForAuthorAndTitle.ToList());
 
             return SublistOfClippingsForAuthorAndTitle;
+        }
+
+        public void ToggleIsEnabledForAllClippings(bool state)
+        {
+            foreach (Clipping clipping in m_ListOfMyClippings)
+            {
+                clipping.IsEnabled = state;
+            }
+        }
+
+        public void ToggleIsEnabledForAllClippingsOfSingleAuthor(string author, bool state)
+        {
+            m_ListOfMyClippings.FindAll(clipping =>
+                {
+                    if (string.Equals(clipping.Author, author))
+                    {
+                        clipping.IsEnabled = state;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                });
+        }
+
+        public void ToggleIsEnabledForAllClippingsOfSingleTitle(string title, bool state)
+        {
+            m_ListOfMyClippings.FindAll(clipping =>
+            {
+                if (string.Equals(clipping.Title, title))
+                {
+                    clipping.IsEnabled = state;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            });
         }
 
         #endregion Public methods
