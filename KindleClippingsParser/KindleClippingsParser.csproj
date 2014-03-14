@@ -62,6 +62,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controller\KindleClippingsParserController.cs" />
+    <Compile Include="Controller\RenderedViews.cs" />
     <Compile Include="Model\Clipping.cs" />
     <Compile Include="Model\ClippingsFileParser.cs" />
     <Compile Include="View\MainWindow.xaml.cs">

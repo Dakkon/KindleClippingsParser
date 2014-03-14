@@ -63,32 +63,59 @@ namespace KindleClippingsParser.View
         #region Ctors
 
         public MainWindow()
-        {
+        {            
             InitializeComponent();
             m_Controller = new KindleClippingsParserController(this);
-        }
+
+            SubscribeToEvents();
+        }        
 
         #endregion Ctors
+        #region Private methods
+
+        private void SubscribeToEvents()
+        {
+            menuItemMCFileView.Checked += menuItemMCFileView_Checked;
+            menuItemTextPageView.Checked += menuItemTextPageView_Checked;            
+            menuItemEditView.Checked += menuItemEditView_Checked;
+        }
+
+        #endregion Private methods
         #region Event handlers
 
         private void buttonMarkAuthors_Click(object sender, RoutedEventArgs e)
         {
-            m_Controller.ButtonMarkAuthorsClick(listBoxAuthors);
+            m_Controller.ButtonMarkAuthorsClick();
         }
 
         private void buttonMarkTitles_Click(object sender, RoutedEventArgs e)
         {
-            m_Controller.ButtonMarkTitlesClick(listBoxTitles);
-        }
+            m_Controller.ButtonMarkTitlesClick();
+        }        
 
         private void menuItemOpen_Click(object sender, RoutedEventArgs e)
         {
-            m_Controller.menuItemOpenClick();
+            m_Controller.MenuItemOpenClick();
         }
 
         private void menuItemExit_Click(object sender, RoutedEventArgs e)
         {
-            m_Controller.menuItemExitClick();
+            m_Controller.MenuItemExitClick();
+        }
+
+        private void menuItemMCFileView_Checked(object sender, RoutedEventArgs e)
+        {
+            m_Controller.MenuItemMCFileViewChecked();
+        }
+
+        private void menuItemTextPageView_Checked(object sender, RoutedEventArgs e)
+        {
+            m_Controller.MenuItemTextPageViewChecked();            
+        }        
+
+        private void menuItemEditView_Checked(object sender, RoutedEventArgs e)
+        {
+            m_Controller.menuItemEditViewChecked();            
         }
 
         #endregion Event handlers
@@ -104,7 +131,7 @@ namespace KindleClippingsParser.View
                 }
             }
         }
-
+               
         public void OpenBothExpanders()
         {
             expanderAuthors.IsExpanded = true;
@@ -123,7 +150,16 @@ namespace KindleClippingsParser.View
 
             return null;
         }
-               
+
+        public void ToggleFilterGroupBox(bool isEnabled, string disablingReason = "")
+        {
+            groupBoxHeader.IsEnabled = isEnabled;
+            buttonMarkAuthors.IsEnabled = isEnabled;
+            buttonMarkTitles.IsEnabled = isEnabled;
+
+            groupBoxHeader.ToolTip = disablingReason;
+        }
+                
         #endregion Public methods
     }
 }
