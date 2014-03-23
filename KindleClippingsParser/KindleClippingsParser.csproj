@@ -53,6 +53,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="View\EditView.cs" />
+    <Compile Include="View\MCFileView.cs" />
+    <Compile Include="View\TextPageView.cs" />
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -65,6 +68,8 @@
     <Compile Include="Controller\RenderedViews.cs" />
     <Compile Include="Model\Clipping.cs" />
     <Compile Include="Model\ClippingsFileParser.cs" />
+    <Compile Include="Model\ClippingsHeader.cs" />
+    <Compile Include="View\BaseClippingsView.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

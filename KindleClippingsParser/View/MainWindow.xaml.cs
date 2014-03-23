@@ -24,10 +24,38 @@ namespace KindleClippingsParser.View
     {
         #region Private fields
 
+        MCFileView m_MCFileView;
+        TextPageView m_TextPageView;
+        EditView m_EditView;
+
         KindleClippingsParserController m_Controller;
 
         #endregion Private fields
         #region Properties
+
+        public MCFileView MCFileViewInstance
+        {
+            get
+            {
+                return m_MCFileView;
+            }
+        }
+
+        public TextPageView TextPageViewInstance
+        {
+            get
+            {
+                return m_TextPageView;
+            }
+        }
+
+        public EditView EditViewInstance
+        {
+            get
+            {
+                return m_EditView;
+            }
+        }
 
         public bool IsAnyAuthorUnselected
         {
@@ -63,25 +91,44 @@ namespace KindleClippingsParser.View
         #region Ctors
 
         public MainWindow()
-        {            
+        {
             InitializeComponent();
             m_Controller = new KindleClippingsParserController(this);
 
+            InitializeViews();
+
             SubscribeToEvents();
-        }        
+        }
 
         #endregion Ctors
         #region Private methods
 
+        private void InitializeViews()
+        {
+            m_MCFileView = new MCFileView(this);
+            m_TextPageView = new TextPageView(this);
+            m_EditView = new EditView(this);
+        }
+
         private void SubscribeToEvents()
         {
             menuItemMCFileView.Checked += menuItemMCFileView_Checked;
-            menuItemTextPageView.Checked += menuItemTextPageView_Checked;            
+            menuItemTextPageView.Checked += menuItemTextPageView_Checked;
             menuItemEditView.Checked += menuItemEditView_Checked;
         }
 
         #endregion Private methods
         #region Event handlers
+
+        public void authorCheckBoxSelectionChanged(object sender, RoutedEventArgs e)
+        {
+            m_Controller.AuthorCheckBoxSelectionChanged((CheckBox)sender);
+        }
+
+        public void titleCheckBoxSelectionChanged(object sender, RoutedEventArgs e)
+        {
+            m_Controller.TitleCheckBoxSelectionChanged((CheckBox)sender);
+        }
 
         private void buttonMarkAuthors_Click(object sender, RoutedEventArgs e)
         {
@@ -91,7 +138,7 @@ namespace KindleClippingsParser.View
         private void buttonMarkTitles_Click(object sender, RoutedEventArgs e)
         {
             m_Controller.ButtonMarkTitlesClick();
-        }        
+        }
 
         private void menuItemOpen_Click(object sender, RoutedEventArgs e)
         {
@@ -110,28 +157,51 @@ namespace KindleClippingsParser.View
 
         private void menuItemTextPageView_Checked(object sender, RoutedEventArgs e)
         {
-            m_Controller.MenuItemTextPageViewChecked();            
-        }        
+            m_Controller.MenuItemTextPageViewChecked();
+        }
 
         private void menuItemEditView_Checked(object sender, RoutedEventArgs e)
         {
-            m_Controller.menuItemEditViewChecked();            
+            m_Controller.menuItemEditViewChecked();
         }
 
         #endregion Event handlers
         #region Public methods
 
-        public void ToggleSelectionForAllCheckBoxesInListBox(ListBox listBox, bool state)
+        public void ToggleSelectionForAllCheckBoxesInAuthorListBox(bool state)
         {
-            foreach (object item in listBox.Items)
+            foreach (object item in listBoxAuthors.Items)
             {
                 if (item.GetType() == typeof(CheckBox))
                 {
+                    //((CheckBox)item).Checked -= authorCheckBoxSelectionChanged;
+                    //((CheckBox)item).Unchecked -= authorCheckBoxSelectionChanged;
+
                     ((CheckBox)item).IsChecked = state;
+
+                    //((CheckBox)item).Checked += authorCheckBoxSelectionChanged;
+                    //((CheckBox)item).Unchecked += authorCheckBoxSelectionChanged;
                 }
             }
         }
-               
+
+        public void ToggleSelectionForAllCheckBoxesInTitlesListBox(bool state)
+        {
+            foreach (object item in listBoxTitles.Items)
+            {
+                if (item.GetType() == typeof(CheckBox))
+                {
+                    //((CheckBox)item).Checked -= titleCheckBoxSelectionChanged;
+                    //((CheckBox)item).Unchecked -= titleCheckBoxSelectionChanged;
+
+                    ((CheckBox)item).IsChecked = state;
+
+                    //((CheckBox)item).Checked += titleCheckBoxSelectionChanged;
+                    //((CheckBox)item).Unchecked += titleCheckBoxSelectionChanged;
+                }
+            }
+        }
+
         public void OpenBothExpanders()
         {
             expanderAuthors.IsExpanded = true;
@@ -159,7 +229,7 @@ namespace KindleClippingsParser.View
 
             groupBoxHeader.ToolTip = disablingReason;
         }
-                
+
         #endregion Public methods
     }
 }

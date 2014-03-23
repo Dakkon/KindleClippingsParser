@@ -17,6 +17,9 @@ namespace KindleClippingsParser.Controller
         private ClippingsFileParser m_ClippingsFileParserInstance;
         private RenderedViews m_RenderedViews;
 
+        private Dictionary<string, CheckBox> m_AuthorsCheckBoxes;
+        private Dictionary<string, CheckBox> m_TitlesCheckBoxes;
+
         #endregion Private fields
         #region Ctors
 
@@ -28,19 +31,29 @@ namespace KindleClippingsParser.Controller
         #endregion Ctors
         #region Private methods
 
+        private void SetModelForAllViews(ClippingsFileParser clippingsFileParser)
+        {
+            m_MainWindow.MCFileViewInstance.SetModel(clippingsFileParser);
+            m_MainWindow.TextPageViewInstance.SetModel(clippingsFileParser);
+            m_MainWindow.EditViewInstance.SetModel(clippingsFileParser);
+        }
+
         private void PopulateAuthorsList()
         {
             if (m_ClippingsFileParserInstance != null)
             {
+                m_AuthorsCheckBoxes = new Dictionary<string, CheckBox>();
+
                 foreach (string author in m_ClippingsFileParserInstance.ListOfAllAuthors)
                 {
                     CheckBox newCheckBox = new CheckBox();
                     newCheckBox.Content = author;
                     newCheckBox.IsChecked = true;
-                    newCheckBox.Checked += authorCheckBoxSelectionChanged;
-                    newCheckBox.Unchecked += authorCheckBoxSelectionChanged;
+                    newCheckBox.Checked += m_MainWindow.authorCheckBoxSelectionChanged;
+                    newCheckBox.Unchecked += m_MainWindow.authorCheckBoxSelectionChanged;
 
                     m_MainWindow.listBoxAuthors.Items.Add(newCheckBox);
+                    m_AuthorsCheckBoxes.Add(author, newCheckBox);
                 }
             }
         }
@@ -49,277 +62,115 @@ namespace KindleClippingsParser.Controller
         {
             if (m_ClippingsFileParserInstance != null)
             {
+                m_TitlesCheckBoxes = new Dictionary<string, CheckBox>();
+
                 foreach (string title in m_ClippingsFileParserInstance.ListOfAllTitles)
                 {
                     CheckBox newCheckBox = new CheckBox();
                     newCheckBox.Content = title;
                     newCheckBox.IsChecked = true;
-                    newCheckBox.Checked += titleCheckBoxSelectionChanged;
-                    newCheckBox.Unchecked += titleCheckBoxSelectionChanged;
+                    newCheckBox.Checked += m_MainWindow.titleCheckBoxSelectionChanged;
+                    newCheckBox.Unchecked += m_MainWindow.titleCheckBoxSelectionChanged;
 
                     m_MainWindow.listBoxTitles.Items.Add(newCheckBox);
+                    m_TitlesCheckBoxes.Add(title, newCheckBox);
                 }
-            }
-        }
-
-        private TextBox GetNewTextBoxForAuthorAndTitle(string author, string title)
-        {
-            const string AUTHOR = "Author: ";
-            const string TITLE = "Title: ";
-
-            //Set properties
-            TextBox newTextBox = new TextBox();
-            newTextBox.TextWrapping = TextWrapping.Wrap;
-            newTextBox.FontWeight = FontWeights.Bold;
-            newTextBox.Margin = new Thickness(0, 10, 0, 10);
-
-            //Bind TextBox.Visibility with CheckBox.IsChecked (on listBoxTitles)
-            Binding textBoxAndCheckBoxBinding = new Binding("IsChecked");
-            textBoxAndCheckBoxBinding.Source = m_MainWindow.FindCheckBoxOnTitleListBoxForTitle(title);
-            textBoxAndCheckBoxBinding.Converter = new BooleanToVisibilityConverter();
-            textBoxAndCheckBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            newTextBox.SetBinding(TextBox.VisibilityProperty, textBoxAndCheckBoxBinding);
-
-            //Set text
-            newTextBox.AppendText(AUTHOR);
-            newTextBox.AppendText(author);
-            newTextBox.AppendText(Environment.NewLine);
-            newTextBox.AppendText(TITLE);
-            newTextBox.AppendText(title);
-
-            return newTextBox;
-        }
-
-        private TextBox GetNewTextBoxForClippingText(string author, string title, Clipping clipping)
-        {
-            const string TOOLTIP_TEXT = "Author: {0}{1}Title: {2}";
-
-            //Set properties
-            TextBox newTextBox = new TextBox();
-            newTextBox.TextWrapping = TextWrapping.Wrap;
-
-            //Bind TextBox.Visibility with Clipping.IsEnabled property
-            Binding textBoxAndClippingBinding = new Binding("IsEnabled");
-            textBoxAndClippingBinding.Source = clipping;
-            textBoxAndClippingBinding.Converter = new BooleanToVisibilityConverter();
-            newTextBox.SetBinding(TextBox.VisibilityProperty, textBoxAndClippingBinding);
-
-            //Set text
-            newTextBox.ToolTip = string.Format(TOOLTIP_TEXT, author, Environment.NewLine, title);
-            newTextBox.AppendText(clipping.Text);
-
-            return newTextBox;
-        }
-
-        private void ToggleSelectionForAllTitlesOfSingleAuthor(string author, bool state)
-        {
-            List<string> ListOfAllTitlesForAuthor = m_ClippingsFileParserInstance.GetListOfAllTitlesForAuthor(author);
-
-            foreach (string title in ListOfAllTitlesForAuthor)
-            {
-                foreach (CheckBox checkBox in m_MainWindow.listBoxTitles.Items)
-                {
-                    if (string.Equals(checkBox.Content.ToString(), title))
-                    {
-                        checkBox.IsChecked = state;
-                    }
-                }
-            }
-        }
-
-        private void SynchronizeAuthorListBoxWithTitlesListBox(string title, bool isTitleSelected)
-        {
-            List<string> ListOfAllAuthorsForTitle = m_ClippingsFileParserInstance.GetListOfAllAuthorsForTitle(title);
-
-            if (isTitleSelected)
-            {
-                foreach (string author in ListOfAllAuthorsForTitle)
-                {
-                    foreach (CheckBox checkBox in m_MainWindow.listBoxAuthors.Items)
-                    {
-                        if (string.Equals(checkBox.Content.ToString(), author))
-                        {
-                            checkBox.Checked -= authorCheckBoxSelectionChanged;
-                            checkBox.Unchecked -= authorCheckBoxSelectionChanged;
-
-                            checkBox.IsChecked = true;
-
-                            checkBox.Checked += authorCheckBoxSelectionChanged;
-                            checkBox.Unchecked += authorCheckBoxSelectionChanged;
-                        }
-                    }
-                }
-            }
-
-            if (!isTitleSelected)
-            {
-                foreach (string author in ListOfAllAuthorsForTitle)
-                {
-                    foreach (CheckBox checkBox in m_MainWindow.listBoxAuthors.Items)
-                    {
-                        if (string.Equals(checkBox.Content.ToString(), author)
-                            && !m_ClippingsFileParserInstance.IsThereAtLeastOneClippingForAuthorEnabled(author))
-                        {
-                            checkBox.Checked -= authorCheckBoxSelectionChanged;
-                            checkBox.Unchecked -= authorCheckBoxSelectionChanged;
-
-                            checkBox.IsChecked = false;
-
-                            checkBox.Checked += authorCheckBoxSelectionChanged;
-                            checkBox.Unchecked += authorCheckBoxSelectionChanged;
-                        }
-                    }
-                }
-            }
-        }
-
-        private void RenderClippingsInMCFileView()
-        {
-            if (m_ClippingsFileParserInstance != null)
-            {
-                m_MainWindow.textBoxWithOriginalMyClippingsFile.Text = m_ClippingsFileParserInstance.OriginalMyClippingsFileText;
-
-                m_RenderedViews |= RenderedViews.MCFileView;
-            }
-        }
-
-        private void RenderClippingsInTextPageView()
-        {
-            if (m_ClippingsFileParserInstance != null)
-            {
-                m_MainWindow.textBoxWithPageView.Clear();
-
-                //Find titles with correct authors
-                foreach (string author in m_ClippingsFileParserInstance.ListOfAllEnabledAuthors)
-                {
-                    foreach (string title in m_ClippingsFileParserInstance.GetListOfAllTitlesForAuthor(author))
-                    {
-                        if (m_ClippingsFileParserInstance.IsTitleEnabled(title))
-                        {
-                            string authorAndTitleLine = string.Format("{0} - \"{1}\"", author, title);
-
-                            m_MainWindow.textBoxWithPageView.AppendText(new string('=', 10));
-                            m_MainWindow.textBoxWithPageView.AppendText(Environment.NewLine);
-                            m_MainWindow.textBoxWithPageView.AppendText(authorAndTitleLine);
-                            m_MainWindow.textBoxWithPageView.AppendText(Environment.NewLine);
-                            m_MainWindow.textBoxWithPageView.AppendText(new string('=', 10));
-                            m_MainWindow.textBoxWithPageView.AppendText(Environment.NewLine);
-                            m_MainWindow.textBoxWithPageView.AppendText(Environment.NewLine);
-
-                            foreach (Clipping clipping in m_ClippingsFileParserInstance.GetSublistOfClippingsForAuthorAndTitle(author, title))
-                            {
-                                if (clipping.IsEnabled)
-                                {
-                                    m_MainWindow.textBoxWithPageView.AppendText(clipping.Text);
-                                    m_MainWindow.textBoxWithPageView.AppendText(Environment.NewLine);
-                                    m_MainWindow.textBoxWithPageView.AppendText(Environment.NewLine);
-                                }
-                            }
-
-                            m_MainWindow.textBoxWithPageView.AppendText(Environment.NewLine);
-                            m_MainWindow.textBoxWithPageView.AppendText(Environment.NewLine);
-                        }
-                    }
-                }
-
-                m_MainWindow.OpenBothExpanders();
-
-                m_RenderedViews |= RenderedViews.TextPageView;
-            }
-        }
-
-        private void RenderClippingsInEditView()
-        {
-            if (m_ClippingsFileParserInstance != null)
-            {
-                //Find titles with correct authors
-                foreach (string author in m_ClippingsFileParserInstance.ListOfAllEnabledAuthors)
-                {
-                    foreach (string title in m_ClippingsFileParserInstance.GetListOfAllTitlesForAuthor(author))
-                    {
-                        TextBox newTextBox = GetNewTextBoxForAuthorAndTitle(author, title);
-                        m_MainWindow.stackPanelClippings.Children.Add(newTextBox);
-
-                        foreach (Clipping clipping in m_ClippingsFileParserInstance.GetSublistOfClippingsForAuthorAndTitle(author, title))
-                        {
-                            TextBox newClippingTextBox = GetNewTextBoxForClippingText(author, title, clipping);
-                            m_MainWindow.stackPanelClippings.Children.Add(newClippingTextBox);
-                        }
-                    }
-                }
-
-                m_MainWindow.OpenBothExpanders();
-
-                m_RenderedViews |= RenderedViews.EditView;
             }
         }
 
         private void RefreshAllViewsWhenAuthorOrTitleSelectionChanged()
-        {
-            //----- ClippingsInMCFileView -----
-            //Refreshing not required
-
-
-            //----- ClippingsInEditView -----
-            //Textbox controls binded with checkboxes. 
-            //Refreshing is done automatically.
-
-
-            //----- ClippingsInTextPageView -----
-            RenderClippingsInTextPageView();
+        {           
+            m_MainWindow.MCFileViewInstance.RefreshViewWhenAuthorOrTitleSelectionChanged();
+            m_MainWindow.EditViewInstance.RefreshViewWhenAuthorOrTitleSelectionChanged();
+            m_MainWindow.TextPageViewInstance.RefreshViewWhenAuthorOrTitleSelectionChanged();            
         }
 
-        #endregion Private methods
-        #region Event handlers
-
-        private void authorCheckBoxSelectionChanged(object sender, RoutedEventArgs e)
+        private void SynchronizeListOfCheckBoxesAfterAuthorSelectionChange(string author, List<ClippingsHeader> toggledHeaders, bool isAuthorEnabled)
         {
-            CheckBox clickedCheckBox = (CheckBox)sender;
+            foreach (ClippingsHeader header in toggledHeaders)
+            {
+                CheckBox titleCheckBox = m_TitlesCheckBoxes[header.Title];
 
-            if (clickedCheckBox.IsChecked == true)
-            {
-                m_ClippingsFileParserInstance.ToggleIsEnabledForAllClippingsOfSingleAuthor(clickedCheckBox.Content.ToString(), true);
-                ToggleSelectionForAllTitlesOfSingleAuthor(clickedCheckBox.Content.ToString(), true);
-            }
-            else
-            {
-                m_ClippingsFileParserInstance.ToggleIsEnabledForAllClippingsOfSingleAuthor(clickedCheckBox.Content.ToString(), false);
-                ToggleSelectionForAllTitlesOfSingleAuthor(clickedCheckBox.Content.ToString(), false);
+                if (titleCheckBox != null)
+                {
+                    titleCheckBox.Checked -= m_MainWindow.titleCheckBoxSelectionChanged;
+                    titleCheckBox.Unchecked -= m_MainWindow.titleCheckBoxSelectionChanged;
+
+                    titleCheckBox.IsChecked = isAuthorEnabled;
+
+                    titleCheckBox.Checked += m_MainWindow.titleCheckBoxSelectionChanged;
+                    titleCheckBox.Unchecked += m_MainWindow.titleCheckBoxSelectionChanged;
+                }
             }
 
             RefreshAllViewsWhenAuthorOrTitleSelectionChanged();
         }
 
-        private void titleCheckBoxSelectionChanged(object sender, RoutedEventArgs e)
+        private void SynchronizeListOfCheckBoxesAfterTitleSelectionChange(string title, List<string> toggledAuthors, bool isTitleEnabled)
         {
-            CheckBox clickedCheckBox = (CheckBox)sender;
+            foreach (string author in toggledAuthors)
+            {
+                CheckBox authorCheckBox = m_AuthorsCheckBoxes[author];
 
-            if (clickedCheckBox.IsChecked == true)
-            {
-                m_ClippingsFileParserInstance.ToggleIsEnabledForAllClippingsOfSingleTitle(clickedCheckBox.Content.ToString(), true);
-                SynchronizeAuthorListBoxWithTitlesListBox(clickedCheckBox.Content.ToString(), true);
-            }
-            else
-            {
-                m_ClippingsFileParserInstance.ToggleIsEnabledForAllClippingsOfSingleTitle(clickedCheckBox.Content.ToString(), false);
-                SynchronizeAuthorListBoxWithTitlesListBox(clickedCheckBox.Content.ToString(), false);
+                if (authorCheckBox != null)
+                {
+                    authorCheckBox.Checked -= m_MainWindow.authorCheckBoxSelectionChanged;
+                    authorCheckBox.Unchecked -= m_MainWindow.authorCheckBoxSelectionChanged;
+
+                    authorCheckBox.IsChecked = isTitleEnabled;
+
+                    authorCheckBox.Checked += m_MainWindow.authorCheckBoxSelectionChanged;
+                    authorCheckBox.Unchecked += m_MainWindow.authorCheckBoxSelectionChanged;
+                }
             }
 
             RefreshAllViewsWhenAuthorOrTitleSelectionChanged();
         }
 
-        #endregion Event handlers
+        #endregion Private methods        
         #region Public methods
+
+        public void AuthorCheckBoxSelectionChanged(CheckBox clickedCheckBox)
+        {            
+            string author = clickedCheckBox.Content.ToString();
+
+            if (clickedCheckBox.IsChecked == true)
+            {
+                List<ClippingsHeader> toggledHeaders = m_ClippingsFileParserInstance.ToggleSingleAuthor(author, true);
+                SynchronizeListOfCheckBoxesAfterAuthorSelectionChange(author, toggledHeaders, true);
+            }
+            else
+            {
+                List<ClippingsHeader> toggledHeaders = m_ClippingsFileParserInstance.ToggleSingleAuthor(author, false);
+                SynchronizeListOfCheckBoxesAfterAuthorSelectionChange(author, toggledHeaders, false);
+            }
+        }
+
+        public void TitleCheckBoxSelectionChanged(CheckBox clickedCheckBox)
+        {            
+            string title = clickedCheckBox.Content.ToString();
+
+            if (clickedCheckBox.IsChecked == true)
+            {
+                List<string> toggledAuthors = m_ClippingsFileParserInstance.ToggleSingleTitle(title, true);
+                SynchronizeListOfCheckBoxesAfterTitleSelectionChange(title, toggledAuthors, true);
+            }
+            else
+            {
+                List<string> toggledAuthors = m_ClippingsFileParserInstance.ToggleSingleTitle(title, false);
+                SynchronizeListOfCheckBoxesAfterTitleSelectionChange(title, toggledAuthors, false);
+            }
+        }        
 
         public void ButtonMarkAuthorsClick()
         {
             if (m_MainWindow.IsAnyAuthorUnselected)
             {
-                m_MainWindow.ToggleSelectionForAllCheckBoxesInListBox(m_MainWindow.listBoxAuthors, true);
+                m_MainWindow.ToggleSelectionForAllCheckBoxesInAuthorListBox(true);
             }
             else
             {
-                m_MainWindow.ToggleSelectionForAllCheckBoxesInListBox(m_MainWindow.listBoxAuthors, false);
+                m_MainWindow.ToggleSelectionForAllCheckBoxesInAuthorListBox(false);
             }
 
             RefreshAllViewsWhenAuthorOrTitleSelectionChanged();
@@ -329,11 +180,11 @@ namespace KindleClippingsParser.Controller
         {
             if (m_MainWindow.IsAnyTitleUnselected)
             {
-                m_MainWindow.ToggleSelectionForAllCheckBoxesInListBox(m_MainWindow.listBoxTitles, true);
+                m_MainWindow.ToggleSelectionForAllCheckBoxesInTitlesListBox(true);
             }
             else
             {
-                m_MainWindow.ToggleSelectionForAllCheckBoxesInListBox(m_MainWindow.listBoxTitles, false);
+                m_MainWindow.ToggleSelectionForAllCheckBoxesInTitlesListBox(false);
             }
 
             RefreshAllViewsWhenAuthorOrTitleSelectionChanged();
@@ -352,6 +203,8 @@ namespace KindleClippingsParser.Controller
                 m_ClippingsFileParserInstance = new ClippingsFileParser(dlg.FileName);
                 PopulateAuthorsList();
                 PopulateTitlesList();
+
+                SetModelForAllViews(m_ClippingsFileParserInstance);
 
                 if (m_MainWindow.menuItemMCFileView.IsChecked)
                 {
@@ -376,7 +229,8 @@ namespace KindleClippingsParser.Controller
 
             if (!((m_RenderedViews & RenderedViews.MCFileView) == RenderedViews.MCFileView))
             {
-                RenderClippingsInMCFileView();
+                m_MainWindow.MCFileViewInstance.RenderView();
+                m_RenderedViews |= RenderedViews.MCFileView;
             }
 
             m_MainWindow.ToggleFilterGroupBox(false, "(filtering is not available in this view)");
@@ -390,7 +244,8 @@ namespace KindleClippingsParser.Controller
 
             if (!((m_RenderedViews & RenderedViews.TextPageView) == RenderedViews.TextPageView))
             {
-                RenderClippingsInTextPageView();
+                m_MainWindow.TextPageViewInstance.RenderView();
+                m_RenderedViews |= RenderedViews.TextPageView;
             }
 
             m_MainWindow.ToggleFilterGroupBox(true);
@@ -404,7 +259,8 @@ namespace KindleClippingsParser.Controller
 
             if (!((m_RenderedViews & RenderedViews.EditView) == RenderedViews.EditView))
             {
-                RenderClippingsInEditView();
+                m_MainWindow.EditViewInstance.RenderView();
+                m_RenderedViews |= RenderedViews.EditView; 
             }
 
             m_MainWindow.ToggleFilterGroupBox(true);

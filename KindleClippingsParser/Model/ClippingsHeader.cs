@@ -1,18 +1,18 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace KindleClippingsParser.Model
 {
-    public class Clipping : INotifyPropertyChanged
+    public class ClippingsHeader : INotifyPropertyChanged
     {
         #region Private fields
 
         private string m_Title;
         private string m_Author;
-        private DateTime m_Timestamp;
-        private string m_Text;
 
         bool m_IsEnabled;
+
+        private List<Clipping> m_ListOfClippings;
 
         #endregion Private fields
         #region Properties
@@ -22,46 +22,21 @@ namespace KindleClippingsParser.Model
             get
             {
                 return m_Title;
-            }    
+            }
             set
             {
                 m_Title = value;
             }
         }
-
         public string Author
         {
             get
             {
                 return m_Author;
-            }         
+            }
             set
             {
                 m_Author = value;
-            }
-        }
-
-        public DateTime Timestamp
-        {
-            get
-            {
-                return m_Timestamp;
-            }
-            set
-            {
-                m_Timestamp = value;
-            }
-        }
-
-        public string Text
-        {
-            get
-            {
-                return m_Text;
-            }
-            set
-            {
-                m_Text = value;
             }
         }
 
@@ -75,25 +50,42 @@ namespace KindleClippingsParser.Model
             set
             {
                 m_IsEnabled = value;
+
+                if (m_ListOfClippings != null)
+                {
+                    foreach (Clipping clipping in m_ListOfClippings)
+                    {
+                        clipping.IsEnabled = value;
+                    }
+                }
+
                 OnPropertyChanged("IsEnabled");
+            }
+        }
+
+        public List<Clipping> ListOfClippings
+        {
+            get
+            {
+                return m_ListOfClippings;
             }
         }
 
         #endregion Properties
         #region Ctors
 
-        public Clipping()
+        public ClippingsHeader()
         {
-            IsEnabled = true;
+            m_IsEnabled = true;
         }
 
-        public Clipping(string title, string author, string ts, string text)
+        public ClippingsHeader(string author, string title)
             : this()
         {
             Title = title;
             Author = author;
-            Timestamp = DateTime.Parse(ts);
-            Text = text;
+
+            m_ListOfClippings = new List<Clipping>();
         }
 
         #endregion Ctors
@@ -108,7 +100,7 @@ namespace KindleClippingsParser.Model
             }
         }
 
-        #endregion Private methods       
+        #endregion Private methods
         #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
