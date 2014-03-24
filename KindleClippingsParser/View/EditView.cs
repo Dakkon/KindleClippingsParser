@@ -88,9 +88,7 @@ namespace KindleClippingsParser.View
                     TextBox newClippingTextBox = GetNewTextBoxForClippingText(clipping);
                     m_MainWindowInstance.stackPanelClippings.Children.Add(newClippingTextBox);
                 }
-            }
-
-            m_MainWindowInstance.OpenBothExpanders();
+            }           
         }
 
         override public void RefreshViewWhenAuthorOrTitleSelectionChanged()

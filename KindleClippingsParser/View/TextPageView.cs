@@ -45,8 +45,6 @@ namespace KindleClippingsParser.View
                     }
                 }
             }
-
-            m_MainWindowInstance.OpenBothExpanders();            
         }
 
         override public void RefreshViewWhenAuthorOrTitleSelectionChanged()

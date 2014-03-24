@@ -247,9 +247,9 @@ namespace KindleClippingsParser.Controller
                 m_MainWindow.TextPageViewInstance.RenderView();
                 m_RenderedViews |= RenderedViews.TextPageView;
             }
-
+            
             m_MainWindow.ToggleFilterGroupBox(true);
-            m_MainWindow.tabItemTextPageView.IsSelected = true;
+            m_MainWindow.tabItemTextPageView.IsSelected = true;            
         }
 
         public void menuItemEditViewChecked()

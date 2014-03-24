@@ -201,13 +201,7 @@ namespace KindleClippingsParser.View
                 }
             }
         }
-
-        public void OpenBothExpanders()
-        {
-            expanderAuthors.IsExpanded = true;
-            expanderTitles.IsExpanded = true;
-        }
-
+               
         public CheckBox FindCheckBoxOnTitleListBoxForTitle(string title)
         {
             foreach (CheckBox checkBox in listBoxTitles.Items)
@@ -223,11 +217,21 @@ namespace KindleClippingsParser.View
 
         public void ToggleFilterGroupBox(bool isEnabled, string disablingReason = "")
         {
+            expanderAuthors.IsExpanded = isEnabled;
+            expanderTitles.IsExpanded = isEnabled;
+
             groupBoxHeader.IsEnabled = isEnabled;
             buttonMarkAuthors.IsEnabled = isEnabled;
             buttonMarkTitles.IsEnabled = isEnabled;
 
-            groupBoxHeader.ToolTip = disablingReason;
+            if (string.IsNullOrEmpty(disablingReason))
+            {
+                groupBoxHeader.ToolTip = null;
+            }
+            else
+            {
+                groupBoxHeader.ToolTip = disablingReason;
+            }            
         }
 
         #endregion Public methods

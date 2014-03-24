@@ -23,7 +23,7 @@ namespace KindleClippingsParser.View
                 throw (new Exception("RenderView() invoked for MCFileView before setting model instance"));
             }
                         
-            m_MainWindowInstance.textBoxWithOriginalMyClippingsFile.Text = m_ClippingsFileParserInstance.OriginalMyClippingsFileText;                    
+            m_MainWindowInstance.textBoxWithOriginalMyClippingsFile.Text = m_ClippingsFileParserInstance.OriginalMyClippingsFileText;
         }
 
         override public void RefreshViewWhenAuthorOrTitleSelectionChanged()
