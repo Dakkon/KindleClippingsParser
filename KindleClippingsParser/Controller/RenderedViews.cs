@@ -5,8 +5,7 @@ namespace KindleClippingsParser.Controller
     [Flags]
     public enum RenderedViews
     {
-        EditView = 1,
-        TextPageView = 2,
-        MCFileView = 4
+        SelectedBookView = 1,
+        MCFileView = 2,        
     }
 }

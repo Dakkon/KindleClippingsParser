@@ -8,7 +8,7 @@ namespace KindleClippingsParser.Model
         #region Private fields
 
         private string m_Title;
-        private string m_Author;
+        private string m_Author;        
 
         bool m_IsEnabled;
 
@@ -28,6 +28,7 @@ namespace KindleClippingsParser.Model
                 m_Title = value;
             }
         }
+
         public string Author
         {
             get
@@ -37,6 +38,15 @@ namespace KindleClippingsParser.Model
             set
             {
                 m_Author = value;
+            }
+        }
+
+        public string HeaderText
+        {
+            get
+            {
+                string HeaderTextTemplate = "{0} - \"{1}\"";
+                return string.Format(HeaderTextTemplate, m_Author, m_Title);
             }
         }
 

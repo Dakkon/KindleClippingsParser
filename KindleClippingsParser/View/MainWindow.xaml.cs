@@ -24,66 +24,27 @@ namespace KindleClippingsParser.View
     {
         #region Private fields
 
+        SelectedBookView m_SelectedBookView;
         MCFileView m_MCFileView;
-        TextPageView m_TextPageView;
-        EditView m_EditView;
 
         KindleClippingsParserController m_Controller;
 
         #endregion Private fields
         #region Properties
 
+        public SelectedBookView SelectedBookViewInstance
+        {
+            get
+            {
+                return m_SelectedBookView;
+            }
+        }
+
         public MCFileView MCFileViewInstance
         {
             get
             {
                 return m_MCFileView;
-            }
-        }
-
-        public TextPageView TextPageViewInstance
-        {
-            get
-            {
-                return m_TextPageView;
-            }
-        }
-
-        public EditView EditViewInstance
-        {
-            get
-            {
-                return m_EditView;
-            }
-        }
-
-        public bool IsAnyAuthorUnselected
-        {
-            get
-            {
-                foreach (object item in listBoxAuthors.Items)
-                {
-                    if (item.GetType() == typeof(CheckBox) && !(bool)(((CheckBox)item).IsChecked))
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-        }
-
-        public bool IsAnyTitleUnselected
-        {
-            get
-            {
-                foreach (object item in listBoxTitles.Items)
-                {
-                    if (item.GetType() == typeof(CheckBox) && !(bool)(((CheckBox)item).IsChecked))
-                    {
-                        return true;
-                    }
-                }
-                return false;
             }
         }
 
@@ -105,40 +66,18 @@ namespace KindleClippingsParser.View
 
         private void InitializeViews()
         {
+            m_SelectedBookView = new SelectedBookView(this);
             m_MCFileView = new MCFileView(this);
-            m_TextPageView = new TextPageView(this);
-            m_EditView = new EditView(this);
         }
 
         private void SubscribeToEvents()
         {
-            menuItemMCFileView.Checked += menuItemMCFileView_Checked;
-            menuItemTextPageView.Checked += menuItemTextPageView_Checked;
-            menuItemEditView.Checked += menuItemEditView_Checked;
+            menuItemMCFileView.Click += menuItemMCFileView_Click;            
+            menuItemSelectedBookView.Click += menuItemSelectedBookView_Click;            
         }
 
         #endregion Private methods
         #region Event handlers
-
-        public void authorCheckBoxSelectionChanged(object sender, RoutedEventArgs e)
-        {
-            m_Controller.AuthorCheckBoxSelectionChanged((CheckBox)sender);
-        }
-
-        public void titleCheckBoxSelectionChanged(object sender, RoutedEventArgs e)
-        {
-            m_Controller.TitleCheckBoxSelectionChanged((CheckBox)sender);
-        }
-
-        private void buttonMarkAuthors_Click(object sender, RoutedEventArgs e)
-        {
-            m_Controller.ButtonMarkAuthorsClick();
-        }
-
-        private void buttonMarkTitles_Click(object sender, RoutedEventArgs e)
-        {
-            m_Controller.ButtonMarkTitlesClick();
-        }
 
         private void menuItemOpen_Click(object sender, RoutedEventArgs e)
         {
@@ -150,90 +89,21 @@ namespace KindleClippingsParser.View
             m_Controller.MenuItemExitClick();
         }
 
-        private void menuItemMCFileView_Checked(object sender, RoutedEventArgs e)
+        private void menuItemMCFileView_Click(object sender, RoutedEventArgs e)
         {
-            m_Controller.MenuItemMCFileViewChecked();
+            m_Controller.MenuItemMCFileViewClick();
         }
 
-        private void menuItemTextPageView_Checked(object sender, RoutedEventArgs e)
+        private void menuItemSelectedBookView_Click(object sender, RoutedEventArgs e)
         {
-            m_Controller.MenuItemTextPageViewChecked();
+            m_Controller.MenuItemSelectedBookViewClick();            
         }
 
-        private void menuItemEditView_Checked(object sender, RoutedEventArgs e)
+        private void comboBoxClippingHeaders_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            m_Controller.menuItemEditViewChecked();
+            m_Controller.ComboBoxClippingHeadersSelectionChanged();
         }
 
         #endregion Event handlers
-        #region Public methods
-
-        public void ToggleSelectionForAllCheckBoxesInAuthorListBox(bool state)
-        {
-            foreach (object item in listBoxAuthors.Items)
-            {
-                if (item.GetType() == typeof(CheckBox))
-                {
-                    //((CheckBox)item).Checked -= authorCheckBoxSelectionChanged;
-                    //((CheckBox)item).Unchecked -= authorCheckBoxSelectionChanged;
-
-                    ((CheckBox)item).IsChecked = state;
-
-                    //((CheckBox)item).Checked += authorCheckBoxSelectionChanged;
-                    //((CheckBox)item).Unchecked += authorCheckBoxSelectionChanged;
-                }
-            }
-        }
-
-        public void ToggleSelectionForAllCheckBoxesInTitlesListBox(bool state)
-        {
-            foreach (object item in listBoxTitles.Items)
-            {
-                if (item.GetType() == typeof(CheckBox))
-                {
-                    //((CheckBox)item).Checked -= titleCheckBoxSelectionChanged;
-                    //((CheckBox)item).Unchecked -= titleCheckBoxSelectionChanged;
-
-                    ((CheckBox)item).IsChecked = state;
-
-                    //((CheckBox)item).Checked += titleCheckBoxSelectionChanged;
-                    //((CheckBox)item).Unchecked += titleCheckBoxSelectionChanged;
-                }
-            }
-        }
-               
-        public CheckBox FindCheckBoxOnTitleListBoxForTitle(string title)
-        {
-            foreach (CheckBox checkBox in listBoxTitles.Items)
-            {
-                if (string.Equals(checkBox.Content.ToString(), title))
-                {
-                    return checkBox;
-                }
-            }
-
-            return null;
-        }
-
-        public void ToggleFilterGroupBox(bool isEnabled, string disablingReason = "")
-        {
-            expanderAuthors.IsExpanded = isEnabled;
-            expanderTitles.IsExpanded = isEnabled;
-
-            groupBoxHeader.IsEnabled = isEnabled;
-            buttonMarkAuthors.IsEnabled = isEnabled;
-            buttonMarkTitles.IsEnabled = isEnabled;
-
-            if (string.IsNullOrEmpty(disablingReason))
-            {
-                groupBoxHeader.ToolTip = null;
-            }
-            else
-            {
-                groupBoxHeader.ToolTip = disablingReason;
-            }            
-        }
-
-        #endregion Public methods
     }
 }

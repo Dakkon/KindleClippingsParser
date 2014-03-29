@@ -53,9 +53,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="View\EditView.cs" />
     <Compile Include="View\MCFileView.cs" />
-    <Compile Include="View\TextPageView.cs" />
+    <Compile Include="View\SelectedBookView.cs" />
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

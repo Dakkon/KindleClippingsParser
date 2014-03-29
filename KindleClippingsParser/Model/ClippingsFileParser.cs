@@ -378,6 +378,20 @@ namespace KindleClippingsParser.Model
             return toggledAuthors;
         }
 
+        public string GetListOfAllClippingsForSingleHeader(ClippingsHeader header)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach(Clipping clipping in header.ListOfClippings)
+            {
+                stringBuilder.Append(clipping.Text);
+                stringBuilder.Append(Environment.NewLine);
+                stringBuilder.Append(Environment.NewLine);
+            }
+
+            return stringBuilder.ToString();
+        }
+
         #endregion Public methods
     }
 }
