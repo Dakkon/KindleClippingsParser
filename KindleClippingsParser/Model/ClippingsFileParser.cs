@@ -382,11 +382,14 @@ namespace KindleClippingsParser.Model
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            foreach(Clipping clipping in header.ListOfClippings)
+            if (header != null)
             {
-                stringBuilder.Append(clipping.Text);
-                stringBuilder.Append(Environment.NewLine);
-                stringBuilder.Append(Environment.NewLine);
+                foreach (Clipping clipping in header.ListOfClippings)
+                {
+                    stringBuilder.Append(clipping.Text);
+                    stringBuilder.Append(Environment.NewLine);
+                    stringBuilder.Append(Environment.NewLine);
+                }
             }
 
             return stringBuilder.ToString();

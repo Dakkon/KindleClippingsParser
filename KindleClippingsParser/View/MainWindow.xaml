@@ -20,7 +20,7 @@
         <TabControl>
             <TabItem Name="tabItemSelectedBookView" Visibility="Collapsed" IsSelected="True">
                 <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <ComboBox x:Name="comboBoxClippingHeaders" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="0,0,0,2" SelectionChanged="comboBoxClippingHeaders_SelectionChanged"/>
+                    <ComboBox x:Name="comboBoxClippingHeaders" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="0,0,0,2" SelectionChanged="comboBoxClippingHeaders_SelectionChanged" IsEditable="True" KeyDown="comboBoxClippingHeaders_KeyDown" KeyUp="comboBoxClippingHeaders_KeyUp" IsTextSearchEnabled="False"/>
                     <TextBox x:Name="textBoxWithPageView" DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Margin="0,2,0,2"/>
                 </DockPanel>
             </TabItem>

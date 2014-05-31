@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace KindleClippingsParser.Controller
 {
@@ -32,6 +33,33 @@ namespace KindleClippingsParser.Controller
         {
             m_MainWindow.SelectedBookViewInstance.SetModel(clippingsFileParser);
             m_MainWindow.MCFileViewInstance.SetModel(clippingsFileParser);
+        }
+
+        private bool FilterPredicate(object obj)
+        {
+            ClippingsHeader headerToCheck = obj as ClippingsHeader;
+
+            if (headerToCheck.Author.ToUpper().Contains(m_MainWindow.comboBoxClippingHeaders.Text.ToUpper()) ||
+                headerToCheck.Title.ToUpper().Contains(m_MainWindow.comboBoxClippingHeaders.Text.ToUpper()))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool isKeyForbidden(Key key)
+        {
+            List<Key> forbiddenKeys = new List<Key>();
+
+            forbiddenKeys.Add(Key.RightShift);
+            forbiddenKeys.Add(Key.LeftShift);
+            forbiddenKeys.Add(Key.Up);
+            forbiddenKeys.Add(Key.Down);
+            forbiddenKeys.Add(Key.Left);
+            forbiddenKeys.Add(Key.Right);
+
+            return forbiddenKeys.Contains(key);
         }
 
         #endregion Private methods
@@ -87,13 +115,30 @@ namespace KindleClippingsParser.Controller
                 m_RenderedViews |= RenderedViews.MCFileView;
             }
 
-            m_MainWindow.tabItemMCFileView.IsSelected = true;            
+            m_MainWindow.tabItemMCFileView.IsSelected = true;
         }
 
         public void ComboBoxClippingHeadersSelectionChanged()
         {
-            m_MainWindow.textBoxWithPageView.Text = 
+            m_MainWindow.textBoxWithPageView.Text =
                 m_ClippingsFileParserInstance.GetListOfAllClippingsForSingleHeader((ClippingsHeader)m_MainWindow.comboBoxClippingHeaders.SelectedItem);
+        }
+
+        public void ComboBoxClippingHeadersKeyDown(KeyEventArgs e)
+        {
+            if (!isKeyForbidden(e.Key))
+            {
+                m_MainWindow.comboBoxClippingHeaders.SelectedIndex = -1;                
+                m_MainWindow.comboBoxClippingHeaders.IsDropDownOpen = true;                
+            }
+        }
+
+        public void ComboBoxClippingHeadersKeyUp(KeyEventArgs e)
+        {
+            if (!isKeyForbidden(e.Key))
+            {
+                m_MainWindow.SelectedBookViewInstance.HeadersListCollectionView.Filter += FilterPredicate;
+            }
         }
 
         #endregion Public methods

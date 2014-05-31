@@ -104,6 +104,16 @@ namespace KindleClippingsParser.View
             m_Controller.ComboBoxClippingHeadersSelectionChanged();
         }
 
+        private void comboBoxClippingHeaders_KeyUp(object sender, KeyEventArgs e)
+        {
+            m_Controller.ComboBoxClippingHeadersKeyUp(e);
+        }
+
+        private void comboBoxClippingHeaders_KeyDown(object sender, KeyEventArgs e)
+        {
+            m_Controller.ComboBoxClippingHeadersKeyDown(e);
+        }
+
         #endregion Event handlers
     }
 }
