@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Kindle Clippings Parser" Height ="620" MinHeight="620" MinWidth="750" Width="750">
     <DockPanel HorizontalAlignment="Stretch" Margin="2,0,2,2">
-        <Menu IsMainMenu="True" DockPanel.Dock="Top" HorizontalAlignment="Stretch" Height="20" VerticalAlignment="Top">
+        <Menu IsMainMenu="True" DockPanel.Dock="Top" Height="20">
             <MenuItem Header="_File">
                 <MenuItem x:Name="menuItemOpen" Header="_Open" Click="menuItemOpen_Click"/>
                 <Separator />
@@ -15,12 +15,12 @@
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="About"/>
-            </MenuItem>
+            </MenuItem>  
         </Menu>
         <TabControl>
             <TabItem Name="tabItemSelectedBookView" Visibility="Collapsed" IsSelected="True">
                 <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <ComboBox x:Name="comboBoxClippingHeaders" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="0,0,0,2" SelectionChanged="comboBoxClippingHeaders_SelectionChanged" IsEditable="True" KeyDown="comboBoxClippingHeaders_KeyDown" KeyUp="comboBoxClippingHeaders_KeyUp" IsTextSearchEnabled="False"/>
+                    <ComboBox x:Name="comboBoxClippingHeaders" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="0,0,0,2" SelectionChanged="comboBoxClippingHeaders_SelectionChanged" IsEditable="True" KeyDown="comboBoxClippingHeaders_KeyDown" KeyUp="comboBoxClippingHeaders_KeyUp" IsTextSearchEnabled="False" DropDownClosed="comboBoxClippingHeaders_DropDownClosed"/>
                     <TextBox x:Name="textBoxWithPageView" DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Margin="0,2,0,2"/>
                 </DockPanel>
             </TabItem>

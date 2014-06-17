@@ -52,16 +52,34 @@ namespace KindleClippingsParser.Controller
         {
             List<Key> forbiddenKeys = new List<Key>();
 
+            forbiddenKeys.Add(Key.System);
             forbiddenKeys.Add(Key.RightShift);
             forbiddenKeys.Add(Key.LeftShift);
             forbiddenKeys.Add(Key.Up);
             forbiddenKeys.Add(Key.Down);
             forbiddenKeys.Add(Key.Left);
             forbiddenKeys.Add(Key.Right);
+            forbiddenKeys.Add(Key.Enter);
+            forbiddenKeys.Add(Key.LeftAlt);
+            forbiddenKeys.Add(Key.RightAlt);
+            forbiddenKeys.Add(Key.LeftCtrl);
+            forbiddenKeys.Add(Key.RightCtrl);
+            forbiddenKeys.Add(Key.F1);
+            forbiddenKeys.Add(Key.F2);
+            forbiddenKeys.Add(Key.F3);
+            forbiddenKeys.Add(Key.F4);
+            forbiddenKeys.Add(Key.F5);
+            forbiddenKeys.Add(Key.F6);
+            forbiddenKeys.Add(Key.F7);
+            forbiddenKeys.Add(Key.F8);
+            forbiddenKeys.Add(Key.F9);
+            forbiddenKeys.Add(Key.F10);
+            forbiddenKeys.Add(Key.F11);
+            forbiddenKeys.Add(Key.F12);
 
             return forbiddenKeys.Contains(key);
         }
-
+        
         #endregion Private methods
         #region Public methods
 
@@ -129,15 +147,27 @@ namespace KindleClippingsParser.Controller
             if (!isKeyForbidden(e.Key))
             {
                 m_MainWindow.comboBoxClippingHeaders.SelectedIndex = -1;                
-                m_MainWindow.comboBoxClippingHeaders.IsDropDownOpen = true;                
+                m_MainWindow.comboBoxClippingHeaders.IsDropDownOpen = true;     
+            }
+            else
+            {
+                m_MainWindow.comboBoxClippingHeaders.IsDropDownOpen = false;
             }
         }
 
         public void ComboBoxClippingHeadersKeyUp(KeyEventArgs e)
         {
-            if (!isKeyForbidden(e.Key))
+            if (m_MainWindow.SelectedBookViewInstance.HeadersListCollectionView != null && !isKeyForbidden(e.Key))
             {
                 m_MainWindow.SelectedBookViewInstance.HeadersListCollectionView.Filter += FilterPredicate;
+            }
+        }
+
+        public void ComboBoxClippingHeadersDropDownClosed()
+        {
+            if (m_MainWindow.SelectedBookViewInstance.HeadersListCollectionView != null)
+            {
+                m_MainWindow.SelectedBookViewInstance.HeadersListCollectionView.Filter = null;
             }
         }
 

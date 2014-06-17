@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -114,6 +113,11 @@ namespace KindleClippingsParser.View
             m_Controller.ComboBoxClippingHeadersKeyDown(e);
         }
 
-        #endregion Event handlers
+        private void comboBoxClippingHeaders_DropDownClosed(object sender, EventArgs e)
+        {
+            m_Controller.ComboBoxClippingHeadersDropDownClosed();
+        }
+
+        #endregion Event handlers       
     }
 }
