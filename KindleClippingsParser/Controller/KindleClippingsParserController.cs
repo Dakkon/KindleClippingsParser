@@ -1,5 +1,6 @@
 ﻿using KindleClippingsParser.Model;
 using KindleClippingsParser.View;
+using KindleClippingsParser.Helpers;
 using Microsoft.Win32;
 using System;
 using System.Windows;
@@ -79,26 +80,36 @@ namespace KindleClippingsParser.Controller
 
             return forbiddenKeys.Contains(key);
         }
+
+        private void OpenMyClippingsFile(string fullFilePath)
+        {
+            m_ClippingsFileParserInstance = new ClippingsFileParser(fullFilePath);
+
+            SetModelForAllViews(m_ClippingsFileParserInstance);
+
+            m_MainWindow.menuItemView.IsEnabled = true;
+            MenuItemSelectedBookViewClick();
+        }
         
         #endregion Private methods
         #region Public methods
 
-        public void MenuItemOpenClick()
+        public void OpenFileClick()
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.DefaultExt = ".txt";
-            dlg.Filter = "Text documents (.txt)|*.txt";
+            bool? isFileSelected;
+            string fullFilePath;
 
-            bool? isFileSelected = dlg.ShowDialog();
+            DiskIOHelper.OpenTextFile(out isFileSelected, out fullFilePath);            
 
             if (isFileSelected == true)
             {
-                m_ClippingsFileParserInstance = new ClippingsFileParser(dlg.FileName);
-
-                SetModelForAllViews(m_ClippingsFileParserInstance);
-
-                MenuItemSelectedBookViewClick();
+                OpenMyClippingsFile(fullFilePath);
             }
+        }
+
+        public void ButtonOpenFoundClick(string fullFilePath)
+        {
+            OpenMyClippingsFile(fullFilePath);
         }
 
         public void MenuItemExitClick()
@@ -171,6 +182,6 @@ namespace KindleClippingsParser.Controller
             }
         }
 
-        #endregion Public methods
+        #endregion Public methods        
     }
 }

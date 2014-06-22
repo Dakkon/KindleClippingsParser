@@ -54,6 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\DiscIOHelper.cs" />
     <Compile Include="View\MCFileView.cs" />
     <Compile Include="View\SelectedBookView.cs" />
     <Page Include="View\MainWindow.xaml">

@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using KindleClippingsParser.Controller;
+using KindleClippingsParser.Helpers;
 
 namespace KindleClippingsParser.View
 {
@@ -58,6 +59,8 @@ namespace KindleClippingsParser.View
             InitializeViews();
 
             SubscribeToEvents();
+
+            SetWelcomeScreen();            
         }
 
         #endregion Ctors
@@ -75,12 +78,41 @@ namespace KindleClippingsParser.View
             menuItemSelectedBookView.Click += menuItemSelectedBookView_Click;            
         }
 
+        private void SetWelcomeScreen()
+        {
+            string fullPathToMyClippingsFile = DiskIOHelper.FindMyClippingsFile();
+
+            if (!string.IsNullOrEmpty(fullPathToMyClippingsFile))
+            {
+                textBlockWelcomeText.Text = string.Format("System has found My Clippings.txt in the following location: {0}{1}", Environment.NewLine, fullPathToMyClippingsFile);
+            }
+            else
+            {
+                textBlockWelcomeText.Text = "System could not find My Clippings.txt file automatically.";
+                HideButtonOpenFound();
+            }
+        }
+
+        private void HideButtonOpenFound()
+        {
+            buttonOpenFound.Visibility = Visibility.Collapsed;
+            Grid.SetColumn(buttonOpenDifferent, 0);
+            Grid.SetColumnSpan(buttonOpenDifferent, 2);
+
+            buttonOpenDifferent.Content = "Search & open My Clippings.txt file...";
+        }
+
         #endregion Private methods
         #region Event handlers
 
-        private void menuItemOpen_Click(object sender, RoutedEventArgs e)
+        private void buttonOpenFound_Click(object sender, RoutedEventArgs e)
         {
-            m_Controller.MenuItemOpenClick();
+            m_Controller.ButtonOpenFoundClick(textBlockWelcomeText.Text.Split(new string[]{ Environment.NewLine }, StringSplitOptions.None)[1]);
+        }
+
+        private void openFile_Click(object sender, RoutedEventArgs e)
+        {
+            m_Controller.OpenFileClick();
         }
 
         private void menuItemExit_Click(object sender, RoutedEventArgs e)
@@ -118,6 +150,6 @@ namespace KindleClippingsParser.View
             m_Controller.ComboBoxClippingHeadersDropDownClosed();
         }
 
-        #endregion Event handlers       
+        #endregion Event handlers               
     }
 }
