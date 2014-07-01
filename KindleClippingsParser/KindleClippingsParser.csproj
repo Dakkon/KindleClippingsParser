@@ -57,6 +57,10 @@
     <Compile Include="Helpers\DiscIOHelper.cs" />
     <Compile Include="View\MCFileView.cs" />
     <Compile Include="View\SelectedBookView.cs" />
+    <Page Include="Resources\StringResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -99,6 +103,10 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Page Include="Resources\StringResources.pl-PL.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

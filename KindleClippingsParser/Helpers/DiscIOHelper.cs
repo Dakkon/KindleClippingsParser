@@ -7,11 +7,12 @@ namespace KindleClippingsParser.Helpers
     {
         #region Public methods
 
-        public static void OpenTextFile(out bool? isFileSelected, out string fileName)
+        public static void OpenTextFile(out bool? isFileSelected, out string fileName, string dialogTitle, string dialogFilter)
         {
             OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Title = dialogTitle;            
             dlg.DefaultExt = ".txt";
-            dlg.Filter = "Text documents (.txt)|*.txt";
+            dlg.Filter = dialogFilter;
 
             isFileSelected = dlg.ShowDialog();
             fileName = dlg.FileName;

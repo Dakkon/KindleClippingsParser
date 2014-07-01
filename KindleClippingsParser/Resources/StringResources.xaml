@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!-- Main windows title -->
+    <system:String x:Key="mainWindowTitle">Kindle Clippings Reader</system:String>
+    
+    <!-- Main menu -->
+    <system:String x:Key="file">_File</system:String>
+    <system:String x:Key="open">_Open...</system:String>
+    <system:String x:Key="exit">E_xit</system:String>
+    <system:String x:Key="view">_View</system:String>
+    <system:String x:Key="selectedBookView">_Selected Book View</system:String>
+    <system:String x:Key="rawMyClippingsFile">_Raw 'My Clippings.txt' File</system:String>
+    <system:String x:Key="help">_Help</system:String>
+    <system:String x:Key="about">_About</system:String>
+
+    <!-- Open file dialog-->
+    <system:String x:Key="dialogTitle">Open</system:String>
+    <system:String x:Key="dialogFilter">Text documents (.txt)|*.txt</system:String>
+
+    <!-- Welcome screen -->
+    <system:String x:Key="openFound">Open Found</system:String>
+    <system:String x:Key="openDifferent">Open Different...</system:String>
+    <system:String x:Key="welcomeTxtWhenFileFound">System has found My Clippings.txt in the following location: {0}{1}</system:String>
+    <system:String x:Key="welcomeTxtWhenFileNotFound">System could not find 'My Clippings.txt' file automatically.</system:String>
+    <system:String x:Key="searchAndOpen">Search &amp; open 'My Clippings.txt' file...</system:String>
+
+</ResourceDictionary>

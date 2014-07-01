@@ -99,7 +99,8 @@ namespace KindleClippingsParser.Controller
             bool? isFileSelected;
             string fullFilePath;
 
-            DiskIOHelper.OpenTextFile(out isFileSelected, out fullFilePath);            
+            DiskIOHelper.OpenTextFile(out isFileSelected, out fullFilePath, 
+                m_MainWindow.Resources["dialogTitle"].ToString(), m_MainWindow.Resources["dialogFilter"].ToString());            
 
             if (isFileSelected == true)
             {

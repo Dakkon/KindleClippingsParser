@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using KindleClippingsParser.Controller;
 using KindleClippingsParser.Helpers;
+using System.Threading;
 
 namespace KindleClippingsParser.View
 {
@@ -60,7 +61,9 @@ namespace KindleClippingsParser.View
 
             SubscribeToEvents();
 
-            SetWelcomeScreen();            
+            SetLanguageDictionary();
+
+            SetWelcomeScreen();
         }
 
         #endregion Ctors
@@ -74,21 +77,42 @@ namespace KindleClippingsParser.View
 
         private void SubscribeToEvents()
         {
-            menuItemMCFileView.Click += menuItemMCFileView_Click;            
-            menuItemSelectedBookView.Click += menuItemSelectedBookView_Click;            
+            menuItemMCFileView.Click += menuItemMCFileView_Click;
+            menuItemSelectedBookView.Click += menuItemSelectedBookView_Click;
+        }
+
+        private void SetLanguageDictionary()
+        {
+            ResourceDictionary dict = new ResourceDictionary();
+            switch (Thread.CurrentThread.CurrentCulture.ToString())
+            {
+                case "pl-PL":
+                    dict.Source = new Uri("..\\Resources\\StringResources.pl-PL.xaml",
+                           UriKind.Relative);
+                    break;
+                default:
+                    dict.Source = new Uri("..\\Resources\\StringResources.xaml",
+                        UriKind.Relative);
+                    break;
+            }
+            Resources.MergedDictionaries.Add(dict);
         }
 
         private void SetWelcomeScreen()
         {
             string fullPathToMyClippingsFile = DiskIOHelper.FindMyClippingsFile();
+            string welcomeText;
 
             if (!string.IsNullOrEmpty(fullPathToMyClippingsFile))
             {
-                textBlockWelcomeText.Text = string.Format("System has found My Clippings.txt in the following location: {0}{1}", Environment.NewLine, fullPathToMyClippingsFile);
+                welcomeText = Resources["welcomeTxtWhenFileFound"].ToString();
+                textBlockWelcomeText.Text = string.Format(welcomeText, Environment.NewLine, fullPathToMyClippingsFile);
             }
             else
             {
-                textBlockWelcomeText.Text = "System could not find My Clippings.txt file automatically.";
+                welcomeText = Resources["welcomeTxtWhenFileNotFound"].ToString();
+
+                textBlockWelcomeText.Text = welcomeText;
                 HideButtonOpenFound();
             }
         }
@@ -99,7 +123,7 @@ namespace KindleClippingsParser.View
             Grid.SetColumn(buttonOpenDifferent, 0);
             Grid.SetColumnSpan(buttonOpenDifferent, 2);
 
-            buttonOpenDifferent.Content = "Search & open My Clippings.txt file...";
+            buttonOpenDifferent.Content = Resources["searchAndOpen"].ToString();
         }
 
         #endregion Private methods
@@ -107,7 +131,7 @@ namespace KindleClippingsParser.View
 
         private void buttonOpenFound_Click(object sender, RoutedEventArgs e)
         {
-            m_Controller.ButtonOpenFoundClick(textBlockWelcomeText.Text.Split(new string[]{ Environment.NewLine }, StringSplitOptions.None)[1]);
+            m_Controller.ButtonOpenFoundClick(textBlockWelcomeText.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None)[1]);
         }
 
         private void openFile_Click(object sender, RoutedEventArgs e)
@@ -127,7 +151,7 @@ namespace KindleClippingsParser.View
 
         private void menuItemSelectedBookView_Click(object sender, RoutedEventArgs e)
         {
-            m_Controller.MenuItemSelectedBookViewClick();            
+            m_Controller.MenuItemSelectedBookViewClick();
         }
 
         private void comboBoxClippingHeaders_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -150,6 +174,6 @@ namespace KindleClippingsParser.View
             m_Controller.ComboBoxClippingHeadersDropDownClosed();
         }
 
-        #endregion Event handlers               
+        #endregion Event handlers
     }
 }
