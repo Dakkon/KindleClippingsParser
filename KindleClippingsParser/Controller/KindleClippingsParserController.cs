@@ -90,7 +90,7 @@ namespace KindleClippingsParser.Controller
             m_MainWindow.menuItemView.IsEnabled = true;
             MenuItemSelectedBookViewClick();
         }
-        
+
         #endregion Private methods
         #region Public methods
 
@@ -99,8 +99,8 @@ namespace KindleClippingsParser.Controller
             bool? isFileSelected;
             string fullFilePath;
 
-            DiskIOHelper.OpenTextFile(out isFileSelected, out fullFilePath, 
-                m_MainWindow.Resources["dialogTitle"].ToString(), m_MainWindow.Resources["dialogFilter"].ToString());            
+            DiskIOHelper.OpenTextFile(out isFileSelected, out fullFilePath,
+                m_MainWindow.Resources["dialogTitle"].ToString(), m_MainWindow.Resources["dialogFilter"].ToString());
 
             if (isFileSelected == true)
             {
@@ -158,8 +158,8 @@ namespace KindleClippingsParser.Controller
         {
             if (!isKeyForbidden(e.Key))
             {
-                m_MainWindow.comboBoxClippingHeaders.SelectedIndex = -1;                
-                m_MainWindow.comboBoxClippingHeaders.IsDropDownOpen = true;     
+                m_MainWindow.comboBoxClippingHeaders.SelectedIndex = -1;
+                m_MainWindow.comboBoxClippingHeaders.IsDropDownOpen = true;
             }
             else
             {
@@ -183,6 +183,15 @@ namespace KindleClippingsParser.Controller
             }
         }
 
-        #endregion Public methods        
+        public void MenuItemClick()
+        {
+            Window dialogAbout = new DialogAbout();
+            dialogAbout.Resources = m_MainWindow.Resources;
+            dialogAbout.Owner = m_MainWindow;
+
+            dialogAbout.ShowDialog();
+        }
+
+        #endregion Public methods
     }
 }

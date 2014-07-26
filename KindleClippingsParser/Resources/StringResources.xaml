@@ -4,7 +4,7 @@
 
     <!-- Main windows title -->
     <system:String x:Key="mainWindowTitle">Kindle Clippings Reader</system:String>
-    
+
     <!-- Main menu -->
     <system:String x:Key="file">_File</system:String>
     <system:String x:Key="open">_Open...</system:String>
@@ -15,7 +15,7 @@
     <system:String x:Key="help">_Help</system:String>
     <system:String x:Key="about">_About</system:String>
 
-    <!-- Open file dialog-->
+    <!-- Open file dialog -->
     <system:String x:Key="dialogTitle">Open</system:String>
     <system:String x:Key="dialogFilter">Text documents (.txt)|*.txt</system:String>
 
@@ -25,5 +25,13 @@
     <system:String x:Key="welcomeTxtWhenFileFound">System has found My Clippings.txt in the following location: {0}{1}</system:String>
     <system:String x:Key="welcomeTxtWhenFileNotFound">System could not find 'My Clippings.txt' file automatically.</system:String>
     <system:String x:Key="searchAndOpen">Search &amp; open 'My Clippings.txt' file...</system:String>
+
+    <!-- About dialog -->
+    <system:String x:Key="aboutTitle">About</system:String>
+    <system:String x:Key="aboutVersion">Version:</system:String>
+    <system:String x:Key="aboutVersionNo">0.1 (beta)</system:String>
+    <system:String x:Key="aboutAuthor">Author:</system:String>
+    <system:String x:Key="aboutRP">Radoslaw Piwko</system:String>
+    <system:String x:Key="aboutWebPage">Home page:</system:String>
 
 </ResourceDictionary>

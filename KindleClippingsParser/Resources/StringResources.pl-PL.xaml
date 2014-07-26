@@ -2,28 +2,36 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-  <!-- Main windows title -->
-  <system:String x:Key="mainWindowTitle">Kindle Clippings Reader</system:String>
-    
-  <!-- Main menu elements -->
-  <system:String x:Key="file">_Plik</system:String>
-  <system:String x:Key="open">_Otwórz...</system:String>
-  <system:String x:Key="exit">_Zakończ</system:String>
-  <system:String x:Key="view">_Widok</system:String>
-  <system:String x:Key="selectedBookView">_Tylko wybrana książka</system:String>
-  <system:String x:Key="rawMyClippingsFile">_Cały plik 'My Clippings.txt'</system:String>
-  <system:String x:Key="help">Po_moc</system:String>
-  <system:String x:Key="about">_O programie...</system:String>
+    <!-- Main windows title -->
+    <system:String x:Key="mainWindowTitle">Kindle Clippings Reader</system:String>
 
-  <!-- Open file dialog-->
-  <system:String x:Key="dialogTitle">Otwórz</system:String>
-  <system:String x:Key="dialogFilter">Pliki tekstowe (.txt)|*.txt</system:String>
+    <!-- Main menu elements -->
+    <system:String x:Key="file">_Plik</system:String>
+    <system:String x:Key="open">_Otwórz...</system:String>
+    <system:String x:Key="exit">_Zakończ</system:String>
+    <system:String x:Key="view">_Widok</system:String>
+    <system:String x:Key="selectedBookView">_Tylko wybrana książka</system:String>
+    <system:String x:Key="rawMyClippingsFile">_Cały plik 'My Clippings.txt'</system:String>
+    <system:String x:Key="help">Po_moc</system:String>
+    <system:String x:Key="about">_O programie...</system:String>
 
-  <!-- Welcome screen -->
-  <system:String x:Key="openFound">Otwórz Znaleziony</system:String>
-  <system:String x:Key="openDifferent">Otwórz Inny...</system:String>
-  <system:String x:Key="welcomeTxtWhenFileFound">System znalazł plik 'My Clippings.txt' w następującej lokalizacji: {0}{1}</system:String>
-  <system:String x:Key="welcomeTxtWhenFileNotFound">System nie mógł odnaleźć pliku 'My Clippings.txt' automatycznie.</system:String>
-  <system:String x:Key="searchAndOpen">Wskaż &amp; otwórz plik 'My Clippings.txt'...</system:String>
+    <!-- Open file dialog -->
+    <system:String x:Key="dialogTitle">Otwórz</system:String>
+    <system:String x:Key="dialogFilter">Pliki tekstowe (.txt)|*.txt</system:String>
+
+    <!-- Welcome screen -->
+    <system:String x:Key="openFound">Otwórz Znaleziony</system:String>
+    <system:String x:Key="openDifferent">Otwórz Inny...</system:String>
+    <system:String x:Key="welcomeTxtWhenFileFound">System znalazł plik 'My Clippings.txt' w następującej lokalizacji: {0}{1}</system:String>
+    <system:String x:Key="welcomeTxtWhenFileNotFound">System nie mógł odnaleźć pliku 'My Clippings.txt' automatycznie.</system:String>
+    <system:String x:Key="searchAndOpen">Wskaż &amp; otwórz plik 'My Clippings.txt'...</system:String>
+
+    <!-- About dialog -->
+    <system:String x:Key="aboutTitle">O programie</system:String>
+    <system:String x:Key="aboutVersion">Wersja: </system:String>
+    <system:String x:Key="aboutVersionNo">0.1 (testowa)</system:String>
+    <system:String x:Key="aboutAuthor">Autor: </system:String>
+    <system:String x:Key="aboutRP">Radosław Piwko</system:String>
+    <system:String x:Key="aboutWebPage">Strona domowa: </system:String>    
 
 </ResourceDictionary>

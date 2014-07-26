@@ -174,6 +174,11 @@ namespace KindleClippingsParser.View
             m_Controller.ComboBoxClippingHeadersDropDownClosed();
         }
 
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            m_Controller.MenuItemClick();
+        }
+
         #endregion Event handlers
     }
 }
