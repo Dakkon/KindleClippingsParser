@@ -1,9 +1,9 @@
-﻿using KindleClippingsParser.Model;
+﻿using KindleClippingsReader.Model;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 
-namespace KindleClippingsParser.View
+namespace KindleClippingsReader.View
 {
     public class SelectedBookView : BaseClippingsView
     {

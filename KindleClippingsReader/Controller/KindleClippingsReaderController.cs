@@ -1,6 +1,6 @@
-﻿using KindleClippingsParser.Model;
-using KindleClippingsParser.View;
-using KindleClippingsParser.Helpers;
+﻿using KindleClippingsReader.Model;
+using KindleClippingsReader.View;
+using KindleClippingsReader.Helpers;
 using Microsoft.Win32;
 using System;
 using System.Windows;
@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace KindleClippingsParser.Controller
+namespace KindleClippingsReader.Controller
 {
-    public class KindleClippingsParserController
+    public class KindleClippingsReaderController
     {
         #region Private fields
 
@@ -22,7 +22,7 @@ namespace KindleClippingsParser.Controller
         #endregion Private fields
         #region Ctors
 
-        public KindleClippingsParserController(MainWindow mainWindow)
+        public KindleClippingsReaderController(MainWindow mainWindow)
         {
             m_MainWindow = mainWindow;
         }

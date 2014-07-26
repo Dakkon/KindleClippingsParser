@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace KindleClippingsParser.Model
+namespace KindleClippingsReader.Model
 {
     public class ClippingsHeader : INotifyPropertyChanged
     {

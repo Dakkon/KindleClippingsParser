@@ -1,7 +1,7 @@
-﻿using KindleClippingsParser.Model;
+﻿using KindleClippingsReader.Model;
 using System;
 
-namespace KindleClippingsParser.View
+namespace KindleClippingsReader.View
 {
     public class MCFileView : BaseClippingsView
     {

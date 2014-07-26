@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace KindleClippingsParser.Model
+namespace KindleClippingsReader.Model
 {
     public class ClippingsFileParser
     {

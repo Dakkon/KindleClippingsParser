@@ -11,11 +11,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using KindleClippingsParser.Controller;
-using KindleClippingsParser.Helpers;
+using KindleClippingsReader.Controller;
+using KindleClippingsReader.Helpers;
 using System.Threading;
 
-namespace KindleClippingsParser.View
+namespace KindleClippingsReader.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -28,7 +28,7 @@ namespace KindleClippingsParser.View
         SelectedBookView m_SelectedBookView;
         MCFileView m_MCFileView;
 
-        KindleClippingsParserController m_Controller;
+        KindleClippingsReaderController m_Controller;
 
         #endregion Private fields
         #region Properties
@@ -55,7 +55,7 @@ namespace KindleClippingsParser.View
         public MainWindow()
         {
             InitializeComponent();
-            m_Controller = new KindleClippingsParserController(this);
+            m_Controller = new KindleClippingsReaderController(this);
 
             InitializeViews();
 

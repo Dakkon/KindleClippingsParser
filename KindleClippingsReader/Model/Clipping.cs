@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace KindleClippingsParser.Model
+namespace KindleClippingsReader.Model
 {
     public class Clipping : INotifyPropertyChanged
     {

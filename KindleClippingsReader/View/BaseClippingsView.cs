@@ -1,6 +1,6 @@
-﻿using KindleClippingsParser.Model;
+﻿using KindleClippingsReader.Model;
 
-namespace KindleClippingsParser.View
+namespace KindleClippingsReader.View
 {
     public abstract class BaseClippingsView
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
 using System.IO;
 
-namespace KindleClippingsParser.Helpers
+namespace KindleClippingsReader.Helpers
 {
     public static class DiskIOHelper
     {
