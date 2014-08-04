@@ -264,22 +264,6 @@ namespace KindleClippingsReader.Model
 
             header.ListOfClippings.Add(clipping);
         }
-        
-        private void UpdateListOfAllEnabledAuthors(string author, bool isAdded)
-        {
-            //TODO: Used only in ToggleIsEnabledForAllClippingsOfSingleAuthor() 
-            //Remove this method when ToggleAll() is ready 
-
-            if (isAdded)
-            {
-                m_ListOfAllEnabledAuthors.Add(author);
-                m_ListOfAllEnabledAuthors = m_ListOfAllEnabledAuthors.Distinct().ToList();
-            }
-            else
-            {
-                m_ListOfAllEnabledAuthors = m_ListOfAllEnabledAuthors.Where(x => x != author).ToList();
-            }
-        }        
 
         private void PopulateListsOfAllAuthorsAndTitles()
         {
@@ -310,22 +294,7 @@ namespace KindleClippingsReader.Model
 
             m_ListOfAllEnabledTitles = m_ListOfAllEnabledTitles.Distinct().ToList();
             m_ListOfAllEnabledTitles.Sort();
-        }
-
-        private void UpdateListOfAllEnabledTitles(string title, bool isAdded)
-        {
-            //TODO: Used only in ToggleIsEnabledForAllClippingsOfSingleTitle()
-            //Remove this method when ToggleAll() is ready
-            if (isAdded)
-            {
-                m_ListOfAllEnabledTitles.Add(title);
-                m_ListOfAllEnabledTitles = m_ListOfAllEnabledTitles.Distinct().ToList();
-            }
-            else
-            {
-                m_ListOfAllEnabledTitles = m_ListOfAllEnabledAuthors.Where(x => x != title).ToList();
-            }
-        }
+        }       
 
         private bool IsThereAtLeastOneHeaderForAuthorEnabled(string author)
         {

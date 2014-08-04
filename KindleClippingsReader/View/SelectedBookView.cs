@@ -30,20 +30,22 @@ namespace KindleClippingsReader.View
 
         override public void RenderView()
         {
-            if (m_ClippingsFileParserInstance == null)
+            if (m_Model == null)
             {
                 throw (new Exception("RenderView() invoked for SelectedBookView before setting model instance"));
             }
 
             //Populate combobox
-            m_ObservableCollectionOfHeaders = new ObservableCollection<ClippingsHeader>(m_ClippingsFileParserInstance.ListOfHeaders);
+            m_ObservableCollectionOfHeaders = new ObservableCollection<ClippingsHeader>(m_Model.ListOfHeaders);
             HeadersListCollectionView = new ListCollectionView(m_ObservableCollectionOfHeaders);
 
             m_MainWindowInstance.comboBoxClippingHeaders.ItemsSource = HeadersListCollectionView;
             m_MainWindowInstance.comboBoxClippingHeaders.DisplayMemberPath = "HeaderText";
 
             //Display appropriate text in comboBoxClippingHeaders
-            m_MainWindowInstance.comboBoxClippingHeaders.Text = m_ClippingsFileParserInstance.ListOfHeaders[0].HeaderText;            
+            m_MainWindowInstance.comboBoxClippingHeaders.Text = m_Model.ListOfHeaders[0].HeaderText;
+
+            m_IsRendered = true;
         }
 
         public override void ResetView()

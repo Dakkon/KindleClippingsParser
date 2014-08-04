@@ -17,8 +17,7 @@ namespace KindleClippingsReader.Controller
         #region Private fields
 
         private MainWindow m_MainWindow;
-        private ClippingsFileParser m_ClippingsFileParserInstance;
-        private RenderedViews m_RenderedViews;
+        private ClippingsFileParser m_ClippingsFileParserInstance;        
 
         #endregion Private fields
         #region Ctors
@@ -33,10 +32,7 @@ namespace KindleClippingsReader.Controller
 
         private void SetModelForAllViews(ClippingsFileParser clippingsFileParser)
         {
-            //TODO: Refactor: add static field in BaseClippingsView
-            m_MainWindow.VerticalListViewInstance.SetModel(clippingsFileParser);
-            m_MainWindow.SelectedBookViewInstance.SetModel(clippingsFileParser);
-            m_MainWindow.MCFileViewInstance.SetModel(clippingsFileParser);
+            BaseClippingsView.m_Model = clippingsFileParser;
         }
 
         private bool FilterPredicate(object obj)
@@ -135,8 +131,10 @@ namespace KindleClippingsReader.Controller
             m_MainWindow.menuItemSelectedBookView.IsChecked = false;
             m_MainWindow.menuItemMCFileView.IsChecked = false;
 
-            //TODO: Render checking - refactor
-            m_MainWindow.VerticalListViewInstance.RenderView();
+            if (!m_MainWindow.VerticalListViewInstance.IsRendered)
+            {
+                m_MainWindow.VerticalListViewInstance.RenderView();
+            }
 
             m_MainWindow.tabItemVerticalListView.IsSelected = true;
 
@@ -150,10 +148,9 @@ namespace KindleClippingsReader.Controller
             m_MainWindow.menuItemVerticalListView.IsChecked = false;
             m_MainWindow.menuItemMCFileView.IsChecked = false;
 
-            if (!((m_RenderedViews & RenderedViews.SelectedBookView) == RenderedViews.SelectedBookView))
+            if (!m_MainWindow.SelectedBookViewInstance.IsRendered)
             {
-                m_MainWindow.SelectedBookViewInstance.RenderView();
-                m_RenderedViews |= RenderedViews.SelectedBookView;
+                m_MainWindow.SelectedBookViewInstance.RenderView();               
             }
 
             m_MainWindow.tabItemSelectedBookView.IsSelected = true;
@@ -168,10 +165,9 @@ namespace KindleClippingsReader.Controller
             m_MainWindow.menuItemVerticalListView.IsChecked = false;
             m_MainWindow.menuItemSelectedBookView.IsChecked = false;
 
-            if (!((m_RenderedViews & RenderedViews.MCFileView) == RenderedViews.MCFileView))
+            if (!m_MainWindow.MCFileViewInstance.IsRendered)
             {
-                m_MainWindow.MCFileViewInstance.RenderView();
-                m_RenderedViews |= RenderedViews.MCFileView;
+                m_MainWindow.MCFileViewInstance.RenderView();                
             }
 
             m_MainWindow.tabItemMCFileView.IsSelected = true;

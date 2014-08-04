@@ -18,12 +18,14 @@ namespace KindleClippingsReader.View
 
         override public void RenderView()
         {
-            if (m_ClippingsFileParserInstance == null)
+            if (m_Model == null)
             {
                 throw (new Exception("RenderView() invoked for MCFileView before setting model instance"));
             }
 
-            m_MainWindowInstance.textBoxWithOriginalMyClippingsFile.Text = m_ClippingsFileParserInstance.OriginalMyClippingsFileText;
+            m_MainWindowInstance.textBoxWithOriginalMyClippingsFile.Text = m_Model.OriginalMyClippingsFileText;
+
+            m_IsRendered = true;
         }
 
         public override void ResetView()

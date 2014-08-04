@@ -30,22 +30,25 @@ namespace KindleClippingsReader.View
 
         override public void RenderView()
         {
-            if (m_ClippingsFileParserInstance == null)
+            if (m_Model == null)
             {
                 throw (new Exception("RenderView() invoked for VerticalListView before setting model instance"));
             }
 
             //Populate list of titles
-            m_ObservableCollectionOfHeaders = new ObservableCollection<ClippingsHeader>(m_ClippingsFileParserInstance.ListOfHeaders);
+            m_ObservableCollectionOfHeaders = new ObservableCollection<ClippingsHeader>(m_Model.ListOfHeaders);
             HeadersListCollectionView = new ListCollectionView(m_ObservableCollectionOfHeaders);
             
             m_MainWindowInstance.listBoxClippingHeaders.ItemsSource = HeadersListCollectionView;
             m_MainWindowInstance.listBoxClippingHeaders.DisplayMemberPath = "HeaderText";
+
+            m_IsRendered = true;
         }
 
         public override void ResetView()
         {
             m_MainWindowInstance.textBoxVerticalListFilter.Text = string.Empty;
+            m_MainWindowInstance.listBoxClippingHeaders.SelectedIndex = 0;            
         }
 
         #endregion Override
