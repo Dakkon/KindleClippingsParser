@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.ComponentModel;
 
 namespace KindleClippingsReader.Controller
 {
@@ -32,6 +33,8 @@ namespace KindleClippingsReader.Controller
 
         private void SetModelForAllViews(ClippingsFileParser clippingsFileParser)
         {
+            //TODO: Refactor: add static field in BaseClippingsView
+            m_MainWindow.VerticalListViewInstance.SetModel(clippingsFileParser);
             m_MainWindow.SelectedBookViewInstance.SetModel(clippingsFileParser);
             m_MainWindow.MCFileViewInstance.SetModel(clippingsFileParser);
         }
@@ -88,7 +91,14 @@ namespace KindleClippingsReader.Controller
             SetModelForAllViews(m_ClippingsFileParserInstance);
 
             m_MainWindow.menuItemView.IsEnabled = true;
-            MenuItemSelectedBookViewClick();
+            MenuItemVerticalListViewClick();
+        }
+
+        private bool HeadersListForVerticalViewFilter(object item)
+        {
+            ClippingsHeader clippingsHeader = item as ClippingsHeader;
+
+            return clippingsHeader.HeaderText.ToLower().Contains(m_MainWindow.textBoxVerticalListFilter.Text.ToLower());
         }
 
         #endregion Private methods
@@ -118,10 +128,26 @@ namespace KindleClippingsReader.Controller
             Application.Current.Shutdown();
         }
 
+        public void MenuItemVerticalListViewClick()
+        {
+            m_MainWindow.menuItemVerticalListView.IsChecked = true;
+
+            m_MainWindow.menuItemSelectedBookView.IsChecked = false;
+            m_MainWindow.menuItemMCFileView.IsChecked = false;
+
+            //TODO: Render checking - refactor
+            m_MainWindow.VerticalListViewInstance.RenderView();
+
+            m_MainWindow.tabItemVerticalListView.IsSelected = true;
+
+            m_MainWindow.ResetAllViews();
+        }
+
         public void MenuItemSelectedBookViewClick()
         {
             m_MainWindow.menuItemSelectedBookView.IsChecked = true;
 
+            m_MainWindow.menuItemVerticalListView.IsChecked = false;
             m_MainWindow.menuItemMCFileView.IsChecked = false;
 
             if (!((m_RenderedViews & RenderedViews.SelectedBookView) == RenderedViews.SelectedBookView))
@@ -131,12 +157,15 @@ namespace KindleClippingsReader.Controller
             }
 
             m_MainWindow.tabItemSelectedBookView.IsSelected = true;
+
+            m_MainWindow.ResetAllViews();
         }
 
         public void MenuItemMCFileViewClick()
         {
             m_MainWindow.menuItemMCFileView.IsChecked = true;
 
+            m_MainWindow.menuItemVerticalListView.IsChecked = false;
             m_MainWindow.menuItemSelectedBookView.IsChecked = false;
 
             if (!((m_RenderedViews & RenderedViews.MCFileView) == RenderedViews.MCFileView))
@@ -147,6 +176,18 @@ namespace KindleClippingsReader.Controller
 
             m_MainWindow.tabItemMCFileView.IsSelected = true;
         }
+
+        public void MenuItemClick()
+        {
+            Window dialogAbout = new DialogAbout();
+            dialogAbout.Resources = m_MainWindow.Resources;
+            dialogAbout.Owner = m_MainWindow;
+
+            dialogAbout.ShowDialog();
+        }
+
+        #endregion Public methods
+        #region Public methods - SelectedBookView
 
         public void ComboBoxClippingHeadersSelectionChanged()
         {
@@ -183,15 +224,21 @@ namespace KindleClippingsReader.Controller
             }
         }
 
-        public void MenuItemClick()
-        {
-            Window dialogAbout = new DialogAbout();
-            dialogAbout.Resources = m_MainWindow.Resources;
-            dialogAbout.Owner = m_MainWindow;
+        #endregion Public methods - SelectedBookView
+        #region Public methods - VerticalListView
 
-            dialogAbout.ShowDialog();
+        public void ListBoxClippingHeadersSelectionChanged()
+        {
+            m_MainWindow.textBoxForVerticalListView.Text =
+                m_ClippingsFileParserInstance.GetListOfAllClippingsForSingleHeader((ClippingsHeader)m_MainWindow.listBoxClippingHeaders.SelectedItem);
         }
 
-        #endregion Public methods
+        public void TextBoxVerticalListFilterTextChanged()
+        {
+            ICollectionView headersListCollectionView = CollectionViewSource.GetDefaultView(m_MainWindow.VerticalListViewInstance.HeadersListCollectionView);
+            headersListCollectionView.Filter = HeadersListForVerticalViewFilter;
+        }
+
+        #endregion Public methods - VerticalListView
     }
 }

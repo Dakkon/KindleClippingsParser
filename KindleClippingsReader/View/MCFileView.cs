@@ -26,9 +26,9 @@ namespace KindleClippingsReader.View
             m_MainWindowInstance.textBoxWithOriginalMyClippingsFile.Text = m_ClippingsFileParserInstance.OriginalMyClippingsFileText;
         }
 
-        override public void RefreshViewWhenAuthorOrTitleSelectionChanged()
+        public override void ResetView()
         {
-            //Refreshing not required
+            //Reset not required
         }
 
         #endregion Override

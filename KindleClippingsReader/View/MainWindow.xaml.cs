@@ -25,13 +25,32 @@ namespace KindleClippingsReader.View
     {
         #region Private fields
 
-        SelectedBookView m_SelectedBookView;
-        MCFileView m_MCFileView;
+        private List<BaseClippingsView> m_ListOfAllViews;
+        private VerticalListView m_VerticalListView;
+        private SelectedBookView m_SelectedBookView;
+        private MCFileView m_MCFileView;
 
         KindleClippingsReaderController m_Controller;
 
         #endregion Private fields
         #region Properties
+
+        public List<BaseClippingsView> ListOfAllViews
+        {
+            get
+            {
+                return m_ListOfAllViews;
+            }
+        }
+
+        public VerticalListView VerticalListViewInstance
+        {
+            get
+            {
+                return m_VerticalListView;
+            }
+
+        }        
 
         public SelectedBookView SelectedBookViewInstance
         {
@@ -71,14 +90,21 @@ namespace KindleClippingsReader.View
 
         private void InitializeViews()
         {
+            m_VerticalListView = new VerticalListView(this);
             m_SelectedBookView = new SelectedBookView(this);
             m_MCFileView = new MCFileView(this);
+
+            m_ListOfAllViews = new List<BaseClippingsView>();
+            m_ListOfAllViews.Add(m_VerticalListView);
+            m_ListOfAllViews.Add(m_SelectedBookView);
+            m_ListOfAllViews.Add(m_MCFileView);
         }
 
         private void SubscribeToEvents()
         {
-            menuItemMCFileView.Click += menuItemMCFileView_Click;
+            menuItemVerticalListView.Click += MenuItemVerticalListView_Click;
             menuItemSelectedBookView.Click += menuItemSelectedBookView_Click;
+            menuItemMCFileView.Click += menuItemMCFileView_Click;
         }
 
         private void SetLanguageDictionary()
@@ -144,14 +170,19 @@ namespace KindleClippingsReader.View
             m_Controller.MenuItemExitClick();
         }
 
-        private void menuItemMCFileView_Click(object sender, RoutedEventArgs e)
+        private void MenuItemVerticalListView_Click(object sender, RoutedEventArgs e)
         {
-            m_Controller.MenuItemMCFileViewClick();
+            m_Controller.MenuItemVerticalListViewClick();
         }
 
         private void menuItemSelectedBookView_Click(object sender, RoutedEventArgs e)
         {
             m_Controller.MenuItemSelectedBookViewClick();
+        }
+
+        private void menuItemMCFileView_Click(object sender, RoutedEventArgs e)
+        {
+            m_Controller.MenuItemMCFileViewClick();
         }
 
         private void comboBoxClippingHeaders_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -174,11 +205,32 @@ namespace KindleClippingsReader.View
             m_Controller.ComboBoxClippingHeadersDropDownClosed();
         }
 
+        private void listBoxClippingHeaders_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            m_Controller.ListBoxClippingHeadersSelectionChanged();
+        }
+
+        private void textBoxVerticalListFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            m_Controller.TextBoxVerticalListFilterTextChanged();
+        }
+
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             m_Controller.MenuItemClick();
         }
 
         #endregion Event handlers
+        #region Public methods
+
+        public void ResetAllViews()
+        {
+            foreach(BaseClippingsView view in m_ListOfAllViews)
+            {
+                view.ResetView();
+            }
+        }
+
+        #endregion Public methods
     }
 }

@@ -22,7 +22,7 @@ namespace KindleClippingsReader.View
 
         abstract public void RenderView();
 
-        abstract public void RefreshViewWhenAuthorOrTitleSelectionChanged();
+        abstract public void ResetView();
         
         #endregion Abstract methods
         #region Public methods

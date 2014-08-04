@@ -5,11 +5,11 @@ using System.Windows.Data;
 
 namespace KindleClippingsReader.View
 {
-    public class SelectedBookView : BaseClippingsView
+    public class VerticalListView : BaseClippingsView
     {
         #region Private fields
 
-        private ObservableCollection<ClippingsHeader> m_ObservableCollectionOfHeaders;        
+        private ObservableCollection<ClippingsHeader> m_ObservableCollectionOfHeaders;
 
         #endregion Private fields
         #region Properties
@@ -19,38 +19,35 @@ namespace KindleClippingsReader.View
         #endregion Properties
         #region Ctors
 
-        public SelectedBookView(MainWindow mainWindow)
+        public VerticalListView(MainWindow mainWindow)
             : base(mainWindow)
         {
-            
+
         }
 
-        #endregion Ctors        
+        #endregion Ctors
         #region Override
 
         override public void RenderView()
         {
             if (m_ClippingsFileParserInstance == null)
             {
-                throw (new Exception("RenderView() invoked for SelectedBookView before setting model instance"));
+                throw (new Exception("RenderView() invoked for VerticalListView before setting model instance"));
             }
 
-            //Populate combobox
+            //Populate list of titles
             m_ObservableCollectionOfHeaders = new ObservableCollection<ClippingsHeader>(m_ClippingsFileParserInstance.ListOfHeaders);
             HeadersListCollectionView = new ListCollectionView(m_ObservableCollectionOfHeaders);
-
-            m_MainWindowInstance.comboBoxClippingHeaders.ItemsSource = HeadersListCollectionView;
-            m_MainWindowInstance.comboBoxClippingHeaders.DisplayMemberPath = "HeaderText";
-
-            //Display appropriate text in comboBoxClippingHeaders
-            m_MainWindowInstance.comboBoxClippingHeaders.Text = m_ClippingsFileParserInstance.ListOfHeaders[0].HeaderText;            
+            
+            m_MainWindowInstance.listBoxClippingHeaders.ItemsSource = HeadersListCollectionView;
+            m_MainWindowInstance.listBoxClippingHeaders.DisplayMemberPath = "HeaderText";
         }
 
         public override void ResetView()
         {
-            m_MainWindowInstance.comboBoxClippingHeaders.SelectedIndex = 0;
+            m_MainWindowInstance.textBoxVerticalListFilter.Text = string.Empty;
         }
 
-        #endregion Override       
+        #endregion Override
     }
 }
