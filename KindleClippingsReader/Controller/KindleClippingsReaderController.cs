@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.ComponentModel;
+using System.IO;
 
 namespace KindleClippingsReader.Controller
 {
@@ -116,7 +117,15 @@ namespace KindleClippingsReader.Controller
 
         public void ButtonOpenFoundClick(string fullFilePath)
         {
-            OpenMyClippingsFile(fullFilePath);
+            if (File.Exists(fullFilePath))
+            {
+                OpenMyClippingsFile(fullFilePath);
+            }
+            else
+            {
+                //File was removed or Kindle de-attached
+                m_MainWindow.SetWelcomeScreen();
+            }
         }
 
         public void MenuItemExitClick()

@@ -122,26 +122,7 @@ namespace KindleClippingsReader.View
                     break;
             }
             Resources.MergedDictionaries.Add(dict);
-        }
-
-        private void SetWelcomeScreen()
-        {
-            string fullPathToMyClippingsFile = DiskIOHelper.FindMyClippingsFile();
-            string welcomeText;
-
-            if (!string.IsNullOrEmpty(fullPathToMyClippingsFile))
-            {
-                welcomeText = Resources["welcomeTxtWhenFileFound"].ToString();
-                textBlockWelcomeText.Text = string.Format(welcomeText, Environment.NewLine, fullPathToMyClippingsFile);
-            }
-            else
-            {
-                welcomeText = Resources["welcomeTxtWhenFileNotFound"].ToString();
-
-                textBlockWelcomeText.Text = welcomeText;
-                HideButtonOpenFound();
-            }
-        }
+        }        
 
         private void HideButtonOpenFound()
         {
@@ -228,6 +209,25 @@ namespace KindleClippingsReader.View
             foreach(BaseClippingsView view in m_ListOfAllViews)
             {
                 view.ResetView();
+            }
+        }
+
+        public void SetWelcomeScreen()
+        {
+            string fullPathToMyClippingsFile = DiskIOHelper.FindMyClippingsFile();
+            string welcomeText;
+
+            if (!string.IsNullOrEmpty(fullPathToMyClippingsFile))
+            {
+                welcomeText = Resources["welcomeTxtWhenFileFound"].ToString();
+                textBlockWelcomeText.Text = string.Format(welcomeText, Environment.NewLine, fullPathToMyClippingsFile);
+            }
+            else
+            {
+                welcomeText = Resources["welcomeTxtWhenFileNotFound"].ToString();
+
+                textBlockWelcomeText.Text = welcomeText;
+                HideButtonOpenFound();
             }
         }
 
