@@ -4,18 +4,23 @@ namespace KindleClippingsReader.View
 {
     public abstract class BaseClippingsView
     {
-        #region Static
-
-        public static ClippingsFileParser m_Model;
-
-        #endregion Static
         #region Private fields
 
-        protected MainWindow m_MainWindowInstance;        
+        protected ClippingsFileParser m_Model;
+        protected MainWindow m_MainWindowInstance;
         protected bool m_IsRendered;
 
         #endregion Private fields
         #region Properties
+
+        public ClippingsFileParser Model
+        {
+            set
+            {
+                m_Model = value;
+                m_IsRendered = false;
+            }
+        }
 
         public bool IsRendered
         {
@@ -40,7 +45,7 @@ namespace KindleClippingsReader.View
         abstract public void RenderView();
 
         abstract public void ResetView();
-        
+
         #endregion Abstract methods
     }
 }

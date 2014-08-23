@@ -50,7 +50,7 @@ namespace KindleClippingsReader.View
                 return m_VerticalListView;
             }
 
-        }        
+        }
 
         public SelectedBookView SelectedBookViewInstance
         {
@@ -122,7 +122,7 @@ namespace KindleClippingsReader.View
                     break;
             }
             Resources.MergedDictionaries.Add(dict);
-        }        
+        }
 
         private void HideButtonOpenFound()
         {
@@ -203,14 +203,6 @@ namespace KindleClippingsReader.View
 
         #endregion Event handlers
         #region Public methods
-
-        public void ResetAllViews()
-        {
-            foreach(BaseClippingsView view in m_ListOfAllViews)
-            {
-                view.ResetView();
-            }
-        }
 
         public void SetWelcomeScreen()
         {

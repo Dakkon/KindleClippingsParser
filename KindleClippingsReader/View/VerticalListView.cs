@@ -45,7 +45,7 @@ namespace KindleClippingsReader.View
             m_IsRendered = true;
         }
 
-        public override void ResetView()
+        override public void ResetView()
         {
             m_MainWindowInstance.textBoxVerticalListFilter.Text = string.Empty;
             m_MainWindowInstance.listBoxClippingHeaders.SelectedIndex = 0;            

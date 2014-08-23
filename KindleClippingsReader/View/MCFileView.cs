@@ -28,7 +28,7 @@ namespace KindleClippingsReader.View
             m_IsRendered = true;
         }
 
-        public override void ResetView()
+        override public void ResetView()
         {
             //Reset not required
         }

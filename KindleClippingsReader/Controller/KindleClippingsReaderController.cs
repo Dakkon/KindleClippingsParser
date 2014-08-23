@@ -33,7 +33,18 @@ namespace KindleClippingsReader.Controller
 
         private void SetModelForAllViews(ClippingsFileParser clippingsFileParser)
         {
-            BaseClippingsView.m_Model = clippingsFileParser;
+            foreach (BaseClippingsView view in m_MainWindow.ListOfAllViews)
+            {
+                view.Model = clippingsFileParser;
+            }
+        }
+
+        public void ResetAllViews()
+        {
+            foreach (BaseClippingsView view in m_MainWindow.ListOfAllViews)
+            {
+                view.ResetView();
+            }
         }
 
         private bool FilterPredicate(object obj)
@@ -147,7 +158,7 @@ namespace KindleClippingsReader.Controller
 
             m_MainWindow.tabItemVerticalListView.IsSelected = true;
 
-            m_MainWindow.ResetAllViews();
+            ResetAllViews();
         }
 
         public void MenuItemSelectedBookViewClick()
@@ -164,7 +175,7 @@ namespace KindleClippingsReader.Controller
 
             m_MainWindow.tabItemSelectedBookView.IsSelected = true;
 
-            m_MainWindow.ResetAllViews();
+            ResetAllViews();
         }
 
         public void MenuItemMCFileViewClick()
