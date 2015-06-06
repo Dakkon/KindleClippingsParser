@@ -208,15 +208,26 @@ namespace KindleClippingsReader.Model
         private string TryExtractTimeStampFromLineOfText(string lineOfText)
         {
             string[] splittedLineOfText = (lineOfText.Split(','));
+            string stringToReturn = string.Empty;
 
-            if (splittedLineOfText.Length < 4)
+            if (splittedLineOfText.Length == 4) //Kindle Classic
+            {
+                stringToReturn = string.Format("{0} {1} {2}", splittedLineOfText[1].TrimStart(), splittedLineOfText[2].TrimStart(),
+                splittedLineOfText[3].TrimStart());
+            }
+            
+            if (splittedLineOfText.Length == 2) //Kindle Paperwhite
+            {
+                stringToReturn = string.Format("{0}", splittedLineOfText[1].TrimStart());
+            }
+
+            if (string.IsNullOrEmpty(stringToReturn))
             {
                 throw (new Exception(string.Format("{0} Unable to extract time stamp. {1}{2} {3}",
                     UNEXPECTED_LINE_FORMAT, Environment.NewLine, CURRENT_LINE_TEXT, lineOfText)));
             }
 
-            return string.Format("{0} {1} {2}", splittedLineOfText[1].TrimStart(), splittedLineOfText[2].TrimStart(),
-                splittedLineOfText[3].TrimStart());
+            return stringToReturn;
         }
 
         private string RemoveParenthesisFromText(string text)

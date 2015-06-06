@@ -90,9 +90,16 @@ namespace KindleClippingsReader.Model
         public Clipping(string title, string author, string ts, string text)
             : this()
         {
+            DateTime tsTemp;
+
             Title = title;
             Author = author;
-            Timestamp = DateTime.Parse(ts);
+            
+            if (DateTime.TryParse(ts, out tsTemp))
+            {
+                Timestamp = tsTemp;
+            }
+
             Text = text;
         }
 
