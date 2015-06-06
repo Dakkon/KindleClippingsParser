@@ -65,7 +65,9 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>                            
                         <TextBox x:Name="textBoxVerticalListFilter" Grid.Row="0" Margin="0,2,2,2" TextChanged="textBoxVerticalListFilter_TextChanged"></TextBox>
-                        <ListBox x:Name="listBoxClippingHeaders" Grid.Row="1" Margin="0,2,2,2" VerticalContentAlignment="Top" SelectionChanged="listBoxClippingHeaders_SelectionChanged"/>
+                        <ScrollViewer x:Name="scrollViewerForlistBoxClippingHeaders" Grid.Row="1" Margin="0,2,2,2" FlowDirection="RightToLeft" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                            <ListBox x:Name="listBoxClippingHeaders"  SelectionChanged="listBoxClippingHeaders_SelectionChanged" FlowDirection="LeftToRight"/>
+                        </ScrollViewer>
                     </Grid>
                     <GridSplitter Grid.Column="1" Width="3" Background="LightGray" HorizontalAlignment="Center"></GridSplitter>
                     <TextBox x:Name="textBoxForVerticalListView" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Margin="2,2,0,2" Grid.Column="2"></TextBox>

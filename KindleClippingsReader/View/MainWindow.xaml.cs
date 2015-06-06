@@ -201,6 +201,11 @@ namespace KindleClippingsReader.View
             m_Controller.MenuItemClick();
         }
 
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            m_Controller.ScrollViewerPreviewMouseWheel(e);
+        }
+
         #endregion Event handlers
         #region Public methods
 

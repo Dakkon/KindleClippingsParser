@@ -202,6 +202,12 @@ namespace KindleClippingsReader.Controller
             dialogAbout.ShowDialog();
         }
 
+        public void ScrollViewerPreviewMouseWheel(MouseWheelEventArgs e)
+        {            
+            ScrollViewer scv = m_MainWindow.scrollViewerForlistBoxClippingHeaders;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+        }
+
         #endregion Public methods
         #region Public methods - SelectedBookView
 
