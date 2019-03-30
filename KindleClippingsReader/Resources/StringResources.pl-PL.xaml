@@ -30,9 +30,9 @@
     <!-- About dialog -->
     <system:String x:Key="aboutTitle">O programie</system:String>
     <system:String x:Key="aboutVersion">Wersja: </system:String>
-    <system:String x:Key="aboutVersionNo">0.2 (testowa)</system:String>
+    <system:String x:Key="aboutVersionNo">1.0</system:String>
     <system:String x:Key="aboutAuthor">Autor: </system:String>
     <system:String x:Key="aboutRP">Radosław Piwko</system:String>
-    <system:String x:Key="aboutWebPage">Strona domowa: </system:String>    
+    <system:String x:Key="aboutContact">Kontakt: </system:String>    
 
 </ResourceDictionary>

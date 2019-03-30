@@ -24,11 +24,11 @@
         <Label Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" VerticalContentAlignment="Center" Content="{DynamicResource aboutVersionNo}"/>
         <Label Grid.Row="4" Grid.Column="0" Content="{DynamicResource aboutAuthor}" HorizontalContentAlignment="Right" VerticalContentAlignment="Top"/>
         <Label Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" VerticalContentAlignment="Center" Content="{DynamicResource aboutRP}"/>
-        <Label Grid.Row="5" Grid.Column="0" Content="{DynamicResource aboutWebPage}" HorizontalContentAlignment="Right" VerticalContentAlignment="Top"/>
+        <Label Grid.Row="5" Grid.Column="0" Content="{DynamicResource aboutContact}" HorizontalContentAlignment="Right" VerticalContentAlignment="Top"/>
         <Label Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" VerticalContentAlignment="Center"/>
         <Label Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center">
-        <Hyperlink NavigateUri="http://kindleclippingsreader.wordpress.com/" RequestNavigate="Hyperlink_RequestNavigate">
-            kindleclippingsreader.wordpress.com
+        <Hyperlink NavigateUri="mailto:radoslaw.piwko@gmail.com?subject=KindleClippingsReader" RequestNavigate="Hyperlink_RequestNavigate">
+            radoslaw.piwko@gmail.com
         </Hyperlink>
         </Label>
     </Grid>
